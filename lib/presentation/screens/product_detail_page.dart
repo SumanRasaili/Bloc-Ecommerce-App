@@ -14,6 +14,9 @@ class _ProductDetailPageState extends State<ProductDetailPage> {
       appBar: AppBar(
         title: const Text('Product Detail'),
       ),
+      body: const Center(
+        child: Text('Product Detail'),
+      ),
     );
   }
 }
