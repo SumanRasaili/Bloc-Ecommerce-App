@@ -14,9 +14,11 @@ class _SplashScreenState extends State<SplashScreen> {
     super.initState();
     Future.delayed(const Duration(seconds: 3), () {
       if (mounted) {
-        Navigator.of(context).push(MaterialPageRoute(
-          builder: (context) => const ProductDetailPage(),
-        ));
+        Navigator.of(context).pushAndRemoveUntil(
+            MaterialPageRoute(
+              builder: (context) => const ProductDetailPage(),
+            ),
+            (route) => false);
       }
     });
   }
