@@ -4,6 +4,84 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:readmore/readmore.dart';
 
+class ColorValues {
+  final Color color;
+  final String colorName;
+  ColorValues({required this.color, required this.colorName});
+}
+
+List<ColorValues> colorValues = [
+  ColorValues(color: Colors.teal, colorName: 'Teal'),
+  ColorValues(color: Colors.purple, colorName: 'White'),
+  ColorValues(color: Colors.red, colorName: 'Red'),
+  ColorValues(color: Colors.green, colorName: 'Green'),
+  ColorValues(color: Colors.blue, colorName: 'Blue'),
+  ColorValues(color: Colors.yellow, colorName: 'Yellow'),
+];
+
+class ColorAttributes {
+  final String productCode;
+  final String colorName;
+  final Color color;
+  final num productPrice;
+  final num productDiscount;
+  final num productDiscountPercent;
+  ColorAttributes({
+    required this.productCode,
+    required this.productPrice,
+    required this.productDiscount,
+    required this.productDiscountPercent,
+    required this.colorName,
+    required this.color,
+  });
+}
+
+List<ColorAttributes> colorAttributes = [
+  ColorAttributes(
+      productCode: '1234',
+      colorName: 'Teal',
+      color: Colors.teal,
+      productPrice: 1000,
+      productDiscount: 100,
+      productDiscountPercent: 10),
+  ColorAttributes(
+      productCode: '345',
+      colorName: 'White',
+      color: Colors.white,
+      productPrice: 1000,
+      productDiscount: 100,
+      productDiscountPercent: 10),
+  ColorAttributes(
+      productCode: '432',
+      colorName: 'Red',
+      color: Colors.red,
+      productPrice: 1000,
+      productDiscount: 100,
+      productDiscountPercent: 10),
+  ColorAttributes(
+      productCode: '76',
+      colorName: 'Green',
+      color: Colors.green,
+      productPrice: 1000,
+      productDiscount: 100,
+      productDiscountPercent: 10),
+  ColorAttributes(
+      productCode: '890',
+      colorName: 'Blue',
+      color: Colors.blue,
+      productPrice: 1000,
+      productDiscount: 100,
+      productDiscountPercent: 10),
+  ColorAttributes(
+    productCode: '2342',
+    colorName: 'Yellow',
+    color: Colors.yellow,
+    productPrice: 1000,
+    productDiscount: 100,
+    productDiscountPercent: 10,
+  ),
+];
+
 class ProductDetailPage extends StatefulWidget {
   const ProductDetailPage({super.key});
 
@@ -20,15 +98,7 @@ class _ProductDetailPageState extends State<ProductDetailPage> {
     carouselBannerController = CarouselSliderController();
   }
 
-  List<Color> colorcodes = [
-    Colors.red,
-    Colors.green,
-    Colors.yellow,
-    Colors.black,
-    Colors.blue,
-    Colors.purple
-  ];
-
+  String selectedColor = colorValues[0].colorName;
   @override
   Widget build(BuildContext context) {
     final List<String> imageUrls = [
@@ -38,7 +108,7 @@ class _ProductDetailPageState extends State<ProductDetailPage> {
       'https://images.unsplash.com/photo-1719937050814-72892488f741?q=80&w=2944&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D',
       'https://images.unsplash.com/photo-1610415393323-4b7f2a9adcda?q=80&w=2787&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D',
     ];
-    bool isSelected = false;
+
     return Scaffold(
       persistentFooterButtons: [
         Container(
@@ -256,33 +326,34 @@ class _ProductDetailPageState extends State<ProductDetailPage> {
                   ),
                   SizedBox(height: 5.h),
                   Row(
-                      children: colorcodes
+                      children: colorValues
                           .map((e) => Row(
                                 mainAxisAlignment: MainAxisAlignment.start,
                                 children: [
                                   InkWell(
                                     onTap: () {
                                       setState(() {
-                                        isSelected = !isSelected;
+                                        selectedColor = e.colorName;
                                       });
                                     },
                                     child: Container(
+                                      height: 40.h,
+                                      width: 40.w,
                                       decoration: BoxDecoration(
+                                        shape: BoxShape.circle,
                                         border: Border.all(
-                                          color: isSelected
+                                          color: selectedColor == e.colorName
                                               ? Colors.black
                                               : Colors.transparent,
                                         ),
-                                        borderRadius:
-                                            BorderRadius.circular(10.r),
                                       ),
                                       child: Container(
-                                        height: 20.h,
-                                        width: 20.w,
+                                        margin: const EdgeInsets.all(1),
+                                        height: 35.h,
+                                        width: 35.w,
                                         decoration: BoxDecoration(
-                                          borderRadius:
-                                              BorderRadius.circular(10.r),
-                                          color: e,
+                                          shape: BoxShape.circle,
+                                          color: e.color,
                                         ),
                                       ),
                                     ),
