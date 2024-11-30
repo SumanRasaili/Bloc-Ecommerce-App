@@ -149,127 +149,156 @@ class _ProductDetailPageState extends State<ProductDetailPage> {
           ),
           SliverToBoxAdapter(
             child: Padding(
-              padding: EdgeInsets.symmetric(horizontal: 10.w),
+              padding: EdgeInsets.symmetric(horizontal: 10.w, vertical: 10.h),
               child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
+                  Row(
                     children: [
                       Text(
                         'Smart Sync Lipstick',
+                        maxLines: 2,
+                        overflow: TextOverflow.ellipsis,
                         style: TextStyle(
                           fontSize: 24.sp,
                           fontWeight: FontWeight.bold,
                         ),
                       ),
-                      SizedBox(height: 5.h),
-                      Text(
-                        'Code: 46437',
-                        style: TextStyle(
-                          fontSize: 16.sp,
+                      const Spacer(),
+                      Container(
+                        padding: EdgeInsets.symmetric(
+                            horizontal: 10.w, vertical: 5.h),
+                        decoration: BoxDecoration(
+                          color: kprimaryColor,
+                          borderRadius: BorderRadius.circular(5.r),
                         ),
-                      ),
-                      SizedBox(height: 5.h),
-                      Row(children: [
-                        Text(
-                          'Rs. 900',
-                          style: TextStyle(
-                            fontSize: 16.sp,
-                            fontWeight: FontWeight.bold,
+                        child: Row(children: [
+                          Icon(
+                            Icons.remove,
+                            size: 24.sp,
                           ),
-                        ),
-                        SizedBox(width: 10.w),
-                        Text(
-                          'Rs. 500',
-                          style: TextStyle(
-                              fontSize: 16.sp,
-                              fontWeight: FontWeight.bold,
-                              color: Theme.of(context).primaryColor,
-                              decoration: TextDecoration.lineThrough),
-                        ),
-                        SizedBox(width: 10.w),
-                        Container(
-                          padding: const EdgeInsets.all(5),
-                          decoration: BoxDecoration(
-                            border: Border.all(
-                                color: Theme.of(context).primaryColor,
-                                width: 2),
-                            borderRadius: BorderRadius.circular(10.r),
-                          ),
-                          child: Text(
-                            '10% off',
+                          SizedBox(width: 5.w),
+                          Text(
+                            '4',
                             style: TextStyle(
                               fontSize: 16.sp,
                               fontWeight: FontWeight.bold,
-                              color: Theme.of(context).primaryColor,
                             ),
                           ),
-                        ),
-                      ]),
-                      SizedBox(height: 5.h),
-                      Text(
-                        'Color (Warm Cocoa)',
-                        style: TextStyle(
-                          fontSize: 16.sp,
-                          fontWeight: FontWeight.bold,
-                        ),
-                      ),
-                      SizedBox(height: 5.h),
-                      Row(
-                          children: colorcodes
-                              .map((e) => Row(
-                                    mainAxisAlignment: MainAxisAlignment.start,
-                                    children: [
-                                      InkWell(
-                                        onTap: () {
-                                          setState(() {
-                                            isSelected = !isSelected;
-                                          });
-                                        },
-                                        child: Container(
-                                          decoration: BoxDecoration(
-                                            border: Border.all(
-                                              color: isSelected
-                                                  ? Colors.black
-                                                  : Colors.transparent,
-                                            ),
-                                            borderRadius:
-                                                BorderRadius.circular(10.r),
-                                          ),
-                                          child: Container(
-                                            height: 20.h,
-                                            width: 20.w,
-                                            decoration: BoxDecoration(
-                                              borderRadius:
-                                                  BorderRadius.circular(10.r),
-                                              color: e,
-                                            ),
-                                          ),
-                                        ),
-                                      ),
-                                      SizedBox(width: 10.w),
-                                    ],
-                                  ))
-                              .toList()),
-                      SizedBox(height: 5.h),
-                      Text(
-                        'Product Description',
-                        style: TextStyle(
-                          fontSize: 16.sp,
-                          fontWeight: FontWeight.bold,
-                        ),
-                      ),
-                      const Text("fytguhijokl"),
-                      Text(
-                        'Product Ingredients',
-                        style: TextStyle(
-                          fontSize: 16.sp,
-                          fontWeight: FontWeight.bold,
-                        ),
-                      ),
-                      const Text("fytguhijokl"),
+                          SizedBox(width: 5.w),
+                          Icon(
+                            Icons.add,
+                            size: 24.sp,
+                          ),
+                        ]),
+                      )
                     ],
                   ),
+                  SizedBox(height: 5.h),
+                  Text(
+                    'Code: 46437',
+                    style: TextStyle(
+                      fontSize: 16.sp,
+                    ),
+                  ),
+                  SizedBox(height: 5.h),
+                  Row(children: [
+                    Text(
+                      'Rs. 900',
+                      style: TextStyle(
+                        fontSize: 16.sp,
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
+                    SizedBox(width: 10.w),
+                    Text(
+                      'Rs. 500',
+                      style: TextStyle(
+                          fontSize: 16.sp,
+                          fontWeight: FontWeight.bold,
+                          color: Theme.of(context).primaryColor,
+                          decoration: TextDecoration.lineThrough),
+                    ),
+                    SizedBox(width: 10.w),
+                    Container(
+                      padding: const EdgeInsets.all(5),
+                      decoration: BoxDecoration(
+                        border: Border.all(
+                            color: Theme.of(context).primaryColor, width: 2),
+                        borderRadius: BorderRadius.circular(10.r),
+                      ),
+                      child: Text(
+                        '10% off',
+                        style: TextStyle(
+                          fontSize: 16.sp,
+                          fontWeight: FontWeight.bold,
+                          color: Theme.of(context).primaryColor,
+                        ),
+                      ),
+                    ),
+                  ]),
+                  SizedBox(height: 5.h),
+                  Text(
+                    'Color (Warm Cocoa)',
+                    style: TextStyle(
+                      fontSize: 16.sp,
+                      fontWeight: FontWeight.bold,
+                    ),
+                  ),
+                  SizedBox(height: 5.h),
+                  Row(
+                      children: colorcodes
+                          .map((e) => Row(
+                                mainAxisAlignment: MainAxisAlignment.start,
+                                children: [
+                                  InkWell(
+                                    onTap: () {
+                                      setState(() {
+                                        isSelected = !isSelected;
+                                      });
+                                    },
+                                    child: Container(
+                                      decoration: BoxDecoration(
+                                        border: Border.all(
+                                          color: isSelected
+                                              ? Colors.black
+                                              : Colors.transparent,
+                                        ),
+                                        borderRadius:
+                                            BorderRadius.circular(10.r),
+                                      ),
+                                      child: Container(
+                                        height: 20.h,
+                                        width: 20.w,
+                                        decoration: BoxDecoration(
+                                          borderRadius:
+                                              BorderRadius.circular(10.r),
+                                          color: e,
+                                        ),
+                                      ),
+                                    ),
+                                  ),
+                                  SizedBox(width: 10.w),
+                                ],
+                              ))
+                          .toList()),
+                  SizedBox(height: 5.h),
+                  Text(
+                    'Product Description',
+                    style: TextStyle(
+                      fontSize: 16.sp,
+                      fontWeight: FontWeight.bold,
+                    ),
+                  ),
+                  const Text("fytguhijokl"),
+                  Text(
+                    'Product Ingredients',
+                    style: TextStyle(
+                      fontSize: 16.sp,
+                      fontWeight: FontWeight.bold,
+                    ),
+                  ),
+                  const Text("fytguhijokl"),
                 ],
               ),
             ),
