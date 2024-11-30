@@ -25,8 +25,10 @@ class DioManager {
     _dio.interceptors.addAll(
       [
         LogInterceptor(
+          request: true,
           responseBody: true,
           requestBody: true,
+          error: true,
         ),
         InterceptorsWrapper(
           onRequest: (options, handler) {

@@ -2,9 +2,11 @@ import 'package:flutter/material.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:oriflamenepal/config/theme/app_theme.dart';
+import 'package:oriflamenepal/core/service_locator/serv_locator.dart';
 import 'package:oriflamenepal/presentation/screens/splash_screen.dart';
 
-Future<void> main() async{
+Future<void> main() async {
+  ServiceLocator.init();
   await dotenv.load(fileName: ".env");
   runApp(const MyApp());
 }
