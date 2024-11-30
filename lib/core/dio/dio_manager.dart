@@ -22,5 +22,24 @@ class DioManager {
       contentType: "application/json",
       responseType: ResponseType.json,
     );
+    _dio.interceptors.addAll(
+      [
+        LogInterceptor(
+          responseBody: true,
+          requestBody: true,
+        ),
+        InterceptorsWrapper(
+          onRequest: (options, handler) {
+            return handler.next(options);
+          },
+          onResponse: (response, handler) {
+            return handler.next(response);
+          },
+          onError: (DioException e, handler) {
+            return handler.next(e);
+          },
+        )
+      ],
+    );
   }
 }
