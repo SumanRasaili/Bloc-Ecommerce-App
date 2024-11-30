@@ -4,6 +4,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:oriflamenepal/config/color/app_colors.dart';
+import 'package:quickalert/models/quickalert_type.dart';
+import 'package:quickalert/widgets/quickalert_dialog.dart';
 import 'package:readmore/readmore.dart';
 
 class ColorValues {
@@ -117,19 +119,28 @@ class _ProductDetailPageState extends State<ProductDetailPage> {
     return Scaffold(
       extendBody: true,
       persistentFooterButtons: [
-        Container(
-          height: 50.h,
-          width: double.infinity,
-          decoration: BoxDecoration(
-            color: Theme.of(context).primaryColor,
-            borderRadius: BorderRadius.all(
-              Radius.circular(10.r),
+        InkWell(
+          onTap: () {
+            QuickAlert.show(
+              context: context,
+              type: QuickAlertType.success,
+              text: 'Successfully Added to Cart',
+            );
+          },
+          child: Container(
+            height: 50.h,
+            width: double.infinity,
+            decoration: BoxDecoration(
+              color: Theme.of(context).primaryColor,
+              borderRadius: BorderRadius.all(
+                Radius.circular(10.r),
+              ),
             ),
-          ),
-          child: Center(
-            child: Text(
-              'Add to Cart',
-              style: TextStyle(color: Colors.white, fontSize: 16.sp),
+            child: Center(
+              child: Text(
+                'Add to Cart',
+                style: TextStyle(color: Colors.white, fontSize: 16.sp),
+              ),
             ),
           ),
         )
@@ -382,35 +393,7 @@ class _ProductDetailPageState extends State<ProductDetailPage> {
                               ))
                           .toList()),
                   SizedBox(height: 5.h),
-                  Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        Text(
-                          "Ratings",
-                          style: TextStyle(
-                            fontSize: 16.sp,
-                            fontWeight: FontWeight.bold,
-                          ),
-                        ),
-                        SizedBox(width: 10.w),
-                        RatingBar.builder(
-                          itemSize: 30,
-                          initialRating: 3,
-                          minRating: 1,
-                          direction: Axis.horizontal,
-                          allowHalfRating: true,
-                          itemCount: 5,
-                          itemPadding:
-                              const EdgeInsets.symmetric(horizontal: 4.0),
-                          itemBuilder: (context, _) => const Icon(
-                            Icons.star,
-                            color: Colors.amber,
-                          ),
-                          onRatingUpdate: (rating) {
-                            print(rating);
-                          },
-                        )
-                      ]),
+                  _ratingsBar(),
                   SizedBox(height: 5.h),
                   _readMoreSection(
                     context: context,
@@ -433,6 +416,35 @@ class _ProductDetailPageState extends State<ProductDetailPage> {
       ),
     );
   }
+}
+
+_ratingsBar() {
+  return Row(mainAxisAlignment: MainAxisAlignment.spaceBetween, children: [
+    Text(
+      "Ratings",
+      style: TextStyle(
+        fontSize: 16.sp,
+        fontWeight: FontWeight.bold,
+      ),
+    ),
+    SizedBox(width: 10.w),
+    RatingBar.builder(
+      itemSize: 30,
+      initialRating: 3,
+      minRating: 1,
+      direction: Axis.horizontal,
+      allowHalfRating: true,
+      itemCount: 5,
+      itemPadding: const EdgeInsets.symmetric(horizontal: 4.0),
+      itemBuilder: (context, _) => const Icon(
+        Icons.star,
+        color: Colors.amber,
+      ),
+      onRatingUpdate: (rating) {
+        print(rating);
+      },
+    )
+  ]);
 }
 
 _messageSection(BuildContext context) {
