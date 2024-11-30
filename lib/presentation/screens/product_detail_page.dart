@@ -1,6 +1,7 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:oriflamenepal/config/color/app_colors.dart';
 import 'package:readmore/readmore.dart';
@@ -102,6 +103,7 @@ class _ProductDetailPageState extends State<ProductDetailPage> {
   }
 
   String selectedColor = colorAttributes[0].colorName;
+  int quantity = 1;
   @override
   Widget build(BuildContext context) {
     final List<String> imageUrls = [
@@ -113,6 +115,7 @@ class _ProductDetailPageState extends State<ProductDetailPage> {
     ];
 
     return Scaffold(
+      extendBody: true,
       persistentFooterButtons: [
         Container(
           height: 50.h,
@@ -202,9 +205,11 @@ class _ProductDetailPageState extends State<ProductDetailPage> {
                           width: currentIndex == entry.key ? 20.w : 8.0.w,
                           height: 10.h,
                           margin: EdgeInsets.symmetric(
-                              horizontal: 4.0, vertical: 5.h),
+                            horizontal: 4.0,
+                            vertical: 5.h,
+                          ),
                           decoration: BoxDecoration(
-                            borderRadius: BorderRadius.circular(15.r),
+                            shape: BoxShape.circle,
                             color: currentIndex == entry.key
                                 ? Theme.of(context).primaryColor
                                 : Colors.grey.shade200,
@@ -243,17 +248,25 @@ class _ProductDetailPageState extends State<ProductDetailPage> {
                         ),
                         child: Row(mainAxisSize: MainAxisSize.min, children: [
                           IconButton(
-                            onPressed: () {},
+                            onPressed: () {
+                              setState(() {
+                                if (quantity > 1) {
+                                  quantity--;
+                                }
+                              });
+                            },
                             icon: Icon(
                               Icons.remove,
-                              color: Theme.of(context).scaffoldBackgroundColor,
+                              color: quantity > 1
+                                  ? Theme.of(context).scaffoldBackgroundColor
+                                  : Colors.grey,
                             ),
                             visualDensity: const VisualDensity(
                                 vertical: -3, horizontal: -3),
                           ),
                           SizedBox(width: 5.w),
                           Text(
-                            '4',
+                            quantity.toString(),
                             style: TextStyle(
                               fontSize: 16.sp,
                               fontWeight: FontWeight.bold,
@@ -262,7 +275,11 @@ class _ProductDetailPageState extends State<ProductDetailPage> {
                           ),
                           SizedBox(width: 5.w),
                           IconButton(
-                            onPressed: () {},
+                            onPressed: () {
+                              setState(() {
+                                quantity++;
+                              });
+                            },
                             icon: Icon(
                               Icons.add,
                               color: Theme.of(context).scaffoldBackgroundColor,
@@ -308,7 +325,7 @@ class _ProductDetailPageState extends State<ProductDetailPage> {
                         borderRadius: BorderRadius.circular(10.r),
                       ),
                       child: Text(
-                        "Rs. ${selectedAttributesValue.productDiscountPercent}",
+                        "${selectedAttributesValue.productDiscountPercent} % off",
                         style: TextStyle(
                           fontSize: 16.sp,
                           fontWeight: FontWeight.bold,
@@ -365,78 +382,49 @@ class _ProductDetailPageState extends State<ProductDetailPage> {
                               ))
                           .toList()),
                   SizedBox(height: 5.h),
-                  Text(
-                    'Product Description',
-                    style: TextStyle(
-                      fontSize: 16.sp,
-                      fontWeight: FontWeight.bold,
-                    ),
-                  ),
-                  SizedBox(height: 5.h),
-                  ReadMoreText(
-                    'Flutter is Google’s mobile UI open source framework to build high-quality native (super fast) interfaces for iOS and Android apps with the unified codebase.',
-                    trimMode: TrimMode.Line,
-                    trimLines: 2,
-                    colorClickableText: Colors.pink,
-                    trimCollapsedText: 'Show more',
-                    trimExpandedText: 'Show less',
-                    moreStyle: TextStyle(
-                      fontSize: 14.sp,
-                      fontWeight: FontWeight.bold,
-                      color: kprimaryColor,
-                    ),
-                  ),
-                  SizedBox(height: 10.h),
-                  Text(
-                    'Product Ingredients',
-                    style: TextStyle(
-                      fontSize: 16.sp,
-                      fontWeight: FontWeight.bold,
-                    ),
-                  ),
-                  SizedBox(height: 5.h),
-                  ReadMoreText(
-                    'Flutter is Google’s mobile UI open source framework to build high-quality native (super fast) interfaces for iOS and Android apps with the unified codebase.',
-                    trimMode: TrimMode.Line,
-                    trimLines: 2,
-                    colorClickableText: Colors.pink,
-                    trimCollapsedText: 'Show more',
-                    trimExpandedText: 'Show less',
-                    moreStyle: TextStyle(
-                      fontSize: 14.sp,
-                      fontWeight: FontWeight.bold,
-                      color: kprimaryColor,
-                    ),
-                  ),
-                  SizedBox(
-                    height: 10.h,
-                  ),
-                  Text(
-                    'Contact Seller',
-                    style: TextStyle(
-                      fontSize: 16.sp,
-                      fontWeight: FontWeight.bold,
-                    ),
-                  ),
-                  SizedBox(height: 5.h),
-                  TextFormField(
-                    decoration: InputDecoration(
-                      border: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(10.r),
-                      ),
-                      enabledBorder: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(10.r),
-                      ),
-                      hintText: 'Send a message',
-                      suffixIcon: IconButton(
-                        icon: Icon(
-                          Icons.send,
-                          color: Theme.of(context).primaryColor,
+                  Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        Text(
+                          "Ratings",
+                          style: TextStyle(
+                            fontSize: 16.sp,
+                            fontWeight: FontWeight.bold,
+                          ),
                         ),
-                        onPressed: () {},
-                      ),
-                    ),
-                  )
+                        SizedBox(width: 10.w),
+                        RatingBar.builder(
+                          itemSize: 30,
+                          initialRating: 3,
+                          minRating: 1,
+                          direction: Axis.horizontal,
+                          allowHalfRating: true,
+                          itemCount: 5,
+                          itemPadding:
+                              const EdgeInsets.symmetric(horizontal: 4.0),
+                          itemBuilder: (context, _) => const Icon(
+                            Icons.star,
+                            color: Colors.amber,
+                          ),
+                          onRatingUpdate: (rating) {
+                            print(rating);
+                          },
+                        )
+                      ]),
+                  SizedBox(height: 5.h),
+                  _readMoreSection(
+                    context: context,
+                    title: 'Product Description',
+                    description:
+                        'Flutter is Google’s mobile UI open source framework to build high-quality native (super fast) interfaces for iOS and Android apps with the unified codebase.',
+                  ),
+                  _readMoreSection(
+                    context: context,
+                    title: 'Product Ingredients',
+                    description:
+                        'Flutter is Google’s mobile UI open source framework to build high-quality native (super fast) interfaces for iOS and Android apps with the unified codebase.',
+                  ),
+                  _messageSection(context),
                 ],
               ),
             ),
@@ -445,4 +433,67 @@ class _ProductDetailPageState extends State<ProductDetailPage> {
       ),
     );
   }
+}
+
+_messageSection(BuildContext context) {
+  return Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
+    Text(
+      'Contact Seller',
+      style: TextStyle(
+        fontSize: 16.sp,
+        fontWeight: FontWeight.bold,
+      ),
+    ),
+    SizedBox(height: 10.h),
+    TextFormField(
+      decoration: InputDecoration(
+        border: OutlineInputBorder(
+          borderRadius: BorderRadius.circular(10.r),
+        ),
+        enabledBorder: OutlineInputBorder(
+          borderRadius: BorderRadius.circular(10.r),
+        ),
+        hintText: 'Send a message',
+        suffixIcon: IconButton(
+          icon: Icon(
+            Icons.send,
+            color: Theme.of(context).primaryColor,
+          ),
+          onPressed: () {},
+        ),
+      ),
+    )
+  ]);
+}
+
+_readMoreSection(
+    {required BuildContext context,
+    required String title,
+    required String description}) {
+  return Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
+    Text(
+      title,
+      style: TextStyle(
+        fontSize: 16.sp,
+        fontWeight: FontWeight.bold,
+      ),
+    ),
+    SizedBox(height: 5.h),
+    ReadMoreText(
+      description,
+      trimMode: TrimMode.Line,
+      trimLines: 2,
+      colorClickableText: Colors.pink,
+      trimCollapsedText: 'Show more',
+      trimExpandedText: 'Show less',
+      moreStyle: TextStyle(
+        fontSize: 14.sp,
+        fontWeight: FontWeight.bold,
+        color: kprimaryColor,
+      ),
+    ),
+    SizedBox(
+      height: 10.h,
+    ),
+  ]);
 }
