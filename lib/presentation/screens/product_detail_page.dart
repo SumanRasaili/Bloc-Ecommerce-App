@@ -2,7 +2,6 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:oriflamenepal/config/color/app_colors.dart';
 
 class ProductDetailPage extends StatefulWidget {
   const ProductDetailPage({super.key});
@@ -45,7 +44,7 @@ class _ProductDetailPageState extends State<ProductDetailPage> {
           height: 50.h,
           width: double.infinity,
           decoration: BoxDecoration(
-            color: kprimaryColor,
+            color: Theme.of(context).primaryColor,
             borderRadius: BorderRadius.all(
               Radius.circular(10.r),
             ),
@@ -127,8 +126,7 @@ class _ProductDetailPageState extends State<ProductDetailPage> {
                         onTap: () =>
                             carouselBannerController.animateToPage(entry.key),
                         child: AnimatedContainer(
-                          duration: const Duration(
-                              milliseconds: 200), // Smooth transition effect
+                          duration: const Duration(milliseconds: 200),
                           width: currentIndex == entry.key ? 20.w : 8.0.w,
                           height: 10.h,
                           margin: EdgeInsets.symmetric(
@@ -154,28 +152,32 @@ class _ProductDetailPageState extends State<ProductDetailPage> {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
                       Text(
                         'Smart Sync Lipstick',
                         maxLines: 2,
                         overflow: TextOverflow.ellipsis,
                         style: TextStyle(
-                          fontSize: 24.sp,
+                          fontSize: 16.sp,
                           fontWeight: FontWeight.bold,
                         ),
                       ),
-                      const Spacer(),
                       Container(
-                        padding: EdgeInsets.symmetric(
-                            horizontal: 10.w, vertical: 5.h),
+                        margin: EdgeInsets.only(left: 10.w),
                         decoration: BoxDecoration(
-                          color: kprimaryColor,
+                          color: Theme.of(context).primaryColor,
                           borderRadius: BorderRadius.circular(5.r),
                         ),
-                        child: Row(children: [
-                          Icon(
-                            Icons.remove,
-                            size: 24.sp,
+                        child: Row(mainAxisSize: MainAxisSize.min, children: [
+                          IconButton(
+                            onPressed: () {},
+                            icon: Icon(
+                              Icons.remove,
+                              color: Theme.of(context).scaffoldBackgroundColor,
+                            ),
+                            visualDensity: const VisualDensity(
+                                vertical: -3, horizontal: -3),
                           ),
                           SizedBox(width: 5.w),
                           Text(
@@ -183,12 +185,18 @@ class _ProductDetailPageState extends State<ProductDetailPage> {
                             style: TextStyle(
                               fontSize: 16.sp,
                               fontWeight: FontWeight.bold,
+                              color: Theme.of(context).scaffoldBackgroundColor,
                             ),
                           ),
                           SizedBox(width: 5.w),
-                          Icon(
-                            Icons.add,
-                            size: 24.sp,
+                          IconButton(
+                            onPressed: () {},
+                            icon: Icon(
+                              Icons.add,
+                              color: Theme.of(context).scaffoldBackgroundColor,
+                            ),
+                            visualDensity: const VisualDensity(
+                                horizontal: -3, vertical: -3),
                           ),
                         ]),
                       )
