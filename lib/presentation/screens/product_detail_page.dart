@@ -2,6 +2,7 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:readmore/readmore.dart';
 
 class ProductDetailPage extends StatefulWidget {
   const ProductDetailPage({super.key});
@@ -298,7 +299,18 @@ class _ProductDetailPageState extends State<ProductDetailPage> {
                       fontWeight: FontWeight.bold,
                     ),
                   ),
-                  const Text("fytguhijokl"),
+                  SizedBox(height: 5.h),
+                  ReadMoreText(
+                    'Flutter is Google’s mobile UI open source framework to build high-quality native (super fast) interfaces for iOS and Android apps with the unified codebase.',
+                    trimMode: TrimMode.Line,
+                    trimLines: 2,
+                    colorClickableText: Colors.pink,
+                    trimCollapsedText: 'Show more',
+                    trimExpandedText: 'Show less',
+                    moreStyle:
+                        TextStyle(fontSize: 14.sp, fontWeight: FontWeight.bold),
+                  ),
+                  SizedBox(height: 10.h),
                   Text(
                     'Product Ingredients',
                     style: TextStyle(
@@ -306,7 +318,17 @@ class _ProductDetailPageState extends State<ProductDetailPage> {
                       fontWeight: FontWeight.bold,
                     ),
                   ),
-                  const Text("fytguhijokl"),
+                  SizedBox(height: 5.h),
+                  ReadMoreText(
+                    'Flutter is Google’s mobile UI open source framework to build high-quality native (super fast) interfaces for iOS and Android apps with the unified codebase.',
+                    trimMode: TrimMode.Line,
+                    trimLines: 2,
+                    colorClickableText: Colors.pink,
+                    trimCollapsedText: 'Show more',
+                    trimExpandedText: 'Show less',
+                    moreStyle:
+                        TextStyle(fontSize: 14.sp, fontWeight: FontWeight.bold),
+                  ),
                 ],
               ),
             ),
