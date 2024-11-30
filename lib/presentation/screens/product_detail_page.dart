@@ -2,6 +2,7 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:oriflamenepal/config/color/app_colors.dart';
 import 'package:readmore/readmore.dart';
 
 class ColorValues {
@@ -12,7 +13,7 @@ class ColorValues {
 
 List<ColorValues> colorValues = [
   ColorValues(color: Colors.teal, colorName: 'Teal'),
-  ColorValues(color: Colors.purple, colorName: 'White'),
+  ColorValues(color: Colors.purple, colorName: 'Purple'),
   ColorValues(color: Colors.red, colorName: 'Red'),
   ColorValues(color: Colors.green, colorName: 'Green'),
   ColorValues(color: Colors.blue, colorName: 'Blue'),
@@ -41,44 +42,44 @@ List<ColorAttributes> colorAttributes = [
       productCode: '1234',
       colorName: 'Teal',
       color: Colors.teal,
-      productPrice: 1000,
-      productDiscount: 100,
-      productDiscountPercent: 10),
+      productPrice: 500,
+      productDiscount: 20,
+      productDiscountPercent: 6),
   ColorAttributes(
       productCode: '345',
-      colorName: 'White',
-      color: Colors.white,
-      productPrice: 1000,
-      productDiscount: 100,
-      productDiscountPercent: 10),
+      colorName: 'Purple',
+      color: Colors.purple,
+      productPrice: 400,
+      productDiscount: 30,
+      productDiscountPercent: 5),
   ColorAttributes(
       productCode: '432',
       colorName: 'Red',
       color: Colors.red,
-      productPrice: 1000,
-      productDiscount: 100,
-      productDiscountPercent: 10),
+      productPrice: 544,
+      productDiscount: 90,
+      productDiscountPercent: 20),
   ColorAttributes(
       productCode: '76',
       colorName: 'Green',
       color: Colors.green,
-      productPrice: 1000,
-      productDiscount: 100,
-      productDiscountPercent: 10),
+      productPrice: 345,
+      productDiscount: 23,
+      productDiscountPercent: 8),
   ColorAttributes(
       productCode: '890',
       colorName: 'Blue',
       color: Colors.blue,
-      productPrice: 1000,
-      productDiscount: 100,
-      productDiscountPercent: 10),
+      productPrice: 0989,
+      productDiscount: 345,
+      productDiscountPercent: 7),
   ColorAttributes(
     productCode: '2342',
     colorName: 'Yellow',
     color: Colors.yellow,
-    productPrice: 1000,
-    productDiscount: 100,
-    productDiscountPercent: 10,
+    productPrice: 2345,
+    productDiscount: 654,
+    productDiscountPercent: 55,
   ),
 ];
 
@@ -92,13 +93,15 @@ class ProductDetailPage extends StatefulWidget {
 class _ProductDetailPageState extends State<ProductDetailPage> {
   late CarouselSliderController carouselBannerController;
   int currentIndex = 0;
+  late ColorAttributes selectedAttributesValue;
   @override
   void initState() {
     super.initState();
     carouselBannerController = CarouselSliderController();
+    selectedAttributesValue = colorAttributes[0];
   }
 
-  String selectedColor = colorValues[0].colorName;
+  String selectedColor = colorAttributes[0].colorName;
   @override
   Widget build(BuildContext context) {
     final List<String> imageUrls = [
@@ -142,9 +145,7 @@ class _ProductDetailPageState extends State<ProductDetailPage> {
                       imageBuilder: (p0, p1) {
                         return Container(
                           height: 200.h,
-                          // margin: EdgeInsets.only(left: 16.w, right: 16.w),
                           decoration: BoxDecoration(
-                            // borderRadius: BorderRadius.circular(0.r),
                             image:
                                 DecorationImage(image: p1, fit: BoxFit.cover),
                           ),
@@ -275,7 +276,7 @@ class _ProductDetailPageState extends State<ProductDetailPage> {
                   ),
                   SizedBox(height: 5.h),
                   Text(
-                    'Code: 46437',
+                    "Code : ${selectedAttributesValue.productCode}",
                     style: TextStyle(
                       fontSize: 16.sp,
                     ),
@@ -283,7 +284,7 @@ class _ProductDetailPageState extends State<ProductDetailPage> {
                   SizedBox(height: 5.h),
                   Row(children: [
                     Text(
-                      'Rs. 900',
+                      "Rs. ${selectedAttributesValue.productPrice}",
                       style: TextStyle(
                         fontSize: 16.sp,
                         fontWeight: FontWeight.bold,
@@ -291,7 +292,7 @@ class _ProductDetailPageState extends State<ProductDetailPage> {
                     ),
                     SizedBox(width: 10.w),
                     Text(
-                      'Rs. 500',
+                      "Rs. ${selectedAttributesValue.productDiscount}",
                       style: TextStyle(
                           fontSize: 16.sp,
                           fontWeight: FontWeight.bold,
@@ -307,7 +308,7 @@ class _ProductDetailPageState extends State<ProductDetailPage> {
                         borderRadius: BorderRadius.circular(10.r),
                       ),
                       child: Text(
-                        '10% off',
+                        "Rs. ${selectedAttributesValue.productDiscountPercent}",
                         style: TextStyle(
                           fontSize: 16.sp,
                           fontWeight: FontWeight.bold,
@@ -318,7 +319,7 @@ class _ProductDetailPageState extends State<ProductDetailPage> {
                   ]),
                   SizedBox(height: 5.h),
                   Text(
-                    'Color (Warm Cocoa)',
+                    "Rs. ${selectedAttributesValue.colorName}",
                     style: TextStyle(
                       fontSize: 16.sp,
                       fontWeight: FontWeight.bold,
@@ -326,7 +327,7 @@ class _ProductDetailPageState extends State<ProductDetailPage> {
                   ),
                   SizedBox(height: 5.h),
                   Row(
-                      children: colorValues
+                      children: colorAttributes
                           .map((e) => Row(
                                 mainAxisAlignment: MainAxisAlignment.start,
                                 children: [
@@ -334,6 +335,7 @@ class _ProductDetailPageState extends State<ProductDetailPage> {
                                     onTap: () {
                                       setState(() {
                                         selectedColor = e.colorName;
+                                        selectedAttributesValue = e;
                                       });
                                     },
                                     child: Container(
@@ -378,8 +380,11 @@ class _ProductDetailPageState extends State<ProductDetailPage> {
                     colorClickableText: Colors.pink,
                     trimCollapsedText: 'Show more',
                     trimExpandedText: 'Show less',
-                    moreStyle:
-                        TextStyle(fontSize: 14.sp, fontWeight: FontWeight.bold),
+                    moreStyle: TextStyle(
+                      fontSize: 14.sp,
+                      fontWeight: FontWeight.bold,
+                      color: kprimaryColor,
+                    ),
                   ),
                   SizedBox(height: 10.h),
                   Text(
@@ -397,10 +402,15 @@ class _ProductDetailPageState extends State<ProductDetailPage> {
                     colorClickableText: Colors.pink,
                     trimCollapsedText: 'Show more',
                     trimExpandedText: 'Show less',
-                    moreStyle:
-                        TextStyle(fontSize: 14.sp, fontWeight: FontWeight.bold),
+                    moreStyle: TextStyle(
+                      fontSize: 14.sp,
+                      fontWeight: FontWeight.bold,
+                      color: kprimaryColor,
+                    ),
                   ),
-                  SizedBox(height: 10.h),
+                  SizedBox(
+                    height: 10.h,
+                  ),
                   Text(
                     'Contact Seller',
                     style: TextStyle(
