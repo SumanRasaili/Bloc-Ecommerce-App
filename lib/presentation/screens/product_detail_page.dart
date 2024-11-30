@@ -118,6 +118,75 @@ class _ProductDetailPageState extends State<ProductDetailPage> {
               ],
             ),
           ),
+          SliverToBoxAdapter(
+            child: Padding(
+              padding: EdgeInsets.symmetric(horizontal: 10.w),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(
+                    'Smart Sync Lipstick',
+                    style: TextStyle(
+                      fontSize: 24.sp,
+                      fontWeight: FontWeight.bold,
+                    ),
+                  ),
+                  SizedBox(height: 5.h),
+                  Text(
+                    'Code: 46437',
+                    style: TextStyle(
+                      fontSize: 16.sp,
+                    ),
+                  ),
+                  SizedBox(height: 5.h),
+                  Row(children: [
+                    Text(
+                      'Rs. 900',
+                      style: TextStyle(
+                        fontSize: 16.sp,
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
+                    SizedBox(width: 10.w),
+                    Text(
+                      'Rs. 500',
+                      style: TextStyle(
+                          fontSize: 16.sp,
+                          fontWeight: FontWeight.bold,
+                          color: Theme.of(context).primaryColor,
+                          decoration: TextDecoration.lineThrough),
+                    ),
+                    SizedBox(width: 10.w),
+                    Container(
+                      padding: const EdgeInsets.all(5),
+                      decoration: BoxDecoration(
+                        border: Border.all(
+                            color: Theme.of(context).primaryColor, width: 2),
+                        borderRadius: BorderRadius.circular(10.r),
+                      ),
+                      child: Text(
+                        '10% off',
+                        style: TextStyle(
+                          fontSize: 16.sp,
+                          fontWeight: FontWeight.bold,
+                          color: Theme.of(context).primaryColor,
+                        ),
+                      ),
+                    ),
+                  ]),
+                  SizedBox(height: 5.h),
+                  Text(
+                    'Color (Warm Cocoa)',
+                    style: TextStyle(
+                      fontSize: 16.sp,
+                      fontWeight: FontWeight.bold,
+                    ),
+                  ),
+                  SizedBox(height: 5.h),
+                ],
+              ),
+            ),
+          ),
         ],
       ),
     );

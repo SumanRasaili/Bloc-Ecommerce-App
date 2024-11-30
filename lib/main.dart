@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:oriflamenepal/config/theme/app_theme.dart';
 import 'package:oriflamenepal/presentation/screens/splash_screen.dart';
 
 void main() {
@@ -15,10 +16,7 @@ class MyApp extends StatelessWidget {
       splitScreenMode: true,
       child: MaterialApp(
         title: 'Oriflame Nepal',
-        theme: ThemeData(
-          primaryColor: const Color(0xff6688bb),
-          useMaterial3: true,
-        ),
+        theme: AppThemes.lightTheme,
         debugShowCheckedModeBanner: false,
         home: const SplashScreen(),
       ),
