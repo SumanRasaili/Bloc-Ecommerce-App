@@ -329,6 +329,33 @@ class _ProductDetailPageState extends State<ProductDetailPage> {
                     moreStyle:
                         TextStyle(fontSize: 14.sp, fontWeight: FontWeight.bold),
                   ),
+                  SizedBox(height: 10.h),
+                  Text(
+                    'Contact Seller',
+                    style: TextStyle(
+                      fontSize: 16.sp,
+                      fontWeight: FontWeight.bold,
+                    ),
+                  ),
+                  SizedBox(height: 5.h),
+                  TextFormField(
+                    decoration: InputDecoration(
+                      border: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(10.r),
+                      ),
+                      enabledBorder: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(10.r),
+                      ),
+                      hintText: 'Send a message',
+                      suffixIcon: IconButton(
+                        icon: Icon(
+                          Icons.send,
+                          color: Theme.of(context).primaryColor,
+                        ),
+                        onPressed: () {},
+                      ),
+                    ),
+                  )
                 ],
               ),
             ),
