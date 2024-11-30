@@ -13,6 +13,7 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return ScreenUtilInit(
+      designSize: const Size(375, 812),
       splitScreenMode: true,
       child: MaterialApp(
         title: 'Oriflame Nepal',
