@@ -1,12 +1,14 @@
+import 'dart:developer';
+
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:oriflamenepal/config/color/app_colors.dart';
 import 'package:quickalert/models/quickalert_type.dart';
 import 'package:quickalert/widgets/quickalert_dialog.dart';
 import 'package:readmore/readmore.dart';
+import 'package:sizer/sizer.dart';
 
 class ColorValues {
   final Color color;
@@ -40,52 +42,6 @@ class ColorAttributes {
   });
 }
 
-List<ColorAttributes> colorAttributes = [
-  ColorAttributes(
-      productCode: '1234',
-      colorName: 'Teal',
-      color: Colors.teal,
-      productPrice: 500,
-      productDiscount: 20,
-      productDiscountPercent: 6),
-  ColorAttributes(
-      productCode: '345',
-      colorName: 'Purple',
-      color: Colors.purple,
-      productPrice: 400,
-      productDiscount: 30,
-      productDiscountPercent: 5),
-  ColorAttributes(
-      productCode: '432',
-      colorName: 'Red',
-      color: Colors.red,
-      productPrice: 544,
-      productDiscount: 90,
-      productDiscountPercent: 20),
-  ColorAttributes(
-      productCode: '76',
-      colorName: 'Green',
-      color: Colors.green,
-      productPrice: 345,
-      productDiscount: 23,
-      productDiscountPercent: 8),
-  ColorAttributes(
-      productCode: '890',
-      colorName: 'Blue',
-      color: Colors.blue,
-      productPrice: 0989,
-      productDiscount: 345,
-      productDiscountPercent: 7),
-  ColorAttributes(
-    productCode: '2342',
-    colorName: 'Yellow',
-    color: Colors.yellow,
-    productPrice: 2345,
-    productDiscount: 654,
-    productDiscountPercent: 55,
-  ),
-];
-
 class ProductDetailPage extends StatefulWidget {
   const ProductDetailPage({super.key});
 
@@ -97,25 +53,73 @@ class _ProductDetailPageState extends State<ProductDetailPage> {
   late CarouselSliderController carouselBannerController;
   int currentIndex = 0;
   late ColorAttributes selectedAttributesValue;
+  List<String> imageUrls = [];
+  List<ColorAttributes> colorAttributes = [];
+  String selectedColor = '';
   @override
   void initState() {
     super.initState();
     carouselBannerController = CarouselSliderController();
-    selectedAttributesValue = colorAttributes[0];
-  }
-
-  String selectedColor = colorAttributes[0].colorName;
-  int quantity = 1;
-  @override
-  Widget build(BuildContext context) {
-    final List<String> imageUrls = [
+    imageUrls = [
       'https://images.unsplash.com/photo-1719937050679-c3a2c9c67b0f?q=80&w=2944&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D',
       'https://images.unsplash.com/photo-1631011714977-a6068c048b7b?q=80&w=2874&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D',
       'https://images.unsplash.com/photo-1719937050579-70e6f9ab58c4?q=80&w=2396&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D',
       'https://images.unsplash.com/photo-1719937050814-72892488f741?q=80&w=2944&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D',
       'https://images.unsplash.com/photo-1610415393323-4b7f2a9adcda?q=80&w=2787&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D',
     ];
+    colorAttributes = [
+      ColorAttributes(
+          productCode: '1234',
+          colorName: 'Teal',
+          color: Colors.teal,
+          productPrice: 500,
+          productDiscount: 20,
+          productDiscountPercent: 6),
+      ColorAttributes(
+          productCode: '345',
+          colorName: 'Purple',
+          color: Colors.purple,
+          productPrice: 400,
+          productDiscount: 30,
+          productDiscountPercent: 5),
+      ColorAttributes(
+          productCode: '432',
+          colorName: 'Red',
+          color: Colors.red,
+          productPrice: 544,
+          productDiscount: 90,
+          productDiscountPercent: 20),
+      ColorAttributes(
+          productCode: '76',
+          colorName: 'Green',
+          color: Colors.green,
+          productPrice: 345,
+          productDiscount: 23,
+          productDiscountPercent: 8),
+      ColorAttributes(
+          productCode: '890',
+          colorName: 'Blue',
+          color: Colors.blue,
+          productPrice: 0989,
+          productDiscount: 345,
+          productDiscountPercent: 7),
+      ColorAttributes(
+        productCode: '2342',
+        colorName: 'Yellow',
+        color: Colors.yellow,
+        productPrice: 2345,
+        productDiscount: 654,
+        productDiscountPercent: 55,
+      ),
+    ];
+    selectedAttributesValue = colorAttributes[0];
+    selectedColor = colorAttributes[0].colorName;
+  }
 
+  int quantity = 1;
+  @override
+  Widget build(BuildContext context) {
+    log("${Device.aspectRatio}");
     return Scaffold(
       persistentFooterButtons: [
         InkWell(
@@ -127,12 +131,12 @@ class _ProductDetailPageState extends State<ProductDetailPage> {
             );
           },
           child: Container(
-            height: 50.h,
+            height: 6.h,
             width: double.infinity,
             decoration: BoxDecoration(
               color: Theme.of(context).primaryColor,
-              borderRadius: BorderRadius.all(
-                Radius.circular(10.r),
+              borderRadius: const BorderRadius.all(
+                Radius.circular(10),
               ),
             ),
             child: Center(
@@ -157,7 +161,7 @@ class _ProductDetailPageState extends State<ProductDetailPage> {
               ),
             ),
             automaticallyImplyLeading: true,
-            expandedHeight: 250.h,
+            expandedHeight: 22.sh,
             centerTitle: true,
             flexibleSpace: FlexibleSpaceBar(
               background: Stack(
@@ -168,11 +172,9 @@ class _ProductDetailPageState extends State<ProductDetailPage> {
                       items: imageUrls.map((item) {
                         return CachedNetworkImage(
                           imageUrl: item,
-                          height: 200.h,
                           width: double.infinity,
                           imageBuilder: (p0, p1) {
                             return Container(
-                              height: 200.h,
                               width: double.infinity,
                               padding: EdgeInsets.zero,
                               decoration: BoxDecoration(
@@ -183,15 +185,13 @@ class _ProductDetailPageState extends State<ProductDetailPage> {
                           },
                           errorWidget: (p0, p1, p2) {
                             return Container(
-                              height: 200.h,
                               decoration: BoxDecoration(
-                                borderRadius: BorderRadius.circular(10.r),
+                                borderRadius: BorderRadius.circular(10),
                               ),
                             );
                           },
                           placeholder: (p0, p1) {
                             return Container(
-                              height: 200.h,
                               width: double.infinity,
                               decoration: BoxDecoration(
                                 color: Colors.grey.shade200,
@@ -215,7 +215,7 @@ class _ProductDetailPageState extends State<ProductDetailPage> {
                     ),
                   ),
                   Positioned(
-                    bottom: 10.h,
+                    bottom: 0.h,
                     left: 0,
                     right: 0,
                     child: Row(
@@ -226,11 +226,11 @@ class _ProductDetailPageState extends State<ProductDetailPage> {
                               carouselBannerController.animateToPage(entry.key),
                           child: AnimatedContainer(
                             duration: const Duration(milliseconds: 200),
-                            width: currentIndex == entry.key ? 20.w : 8.0.w,
-                            height: 10.h,
+                            width: currentIndex == entry.key ? 4.w : 4.w,
+                            height: 1.5.h,
                             margin: EdgeInsets.symmetric(
-                              horizontal: 4.0,
-                              vertical: 5.h,
+                              horizontal: 1.5.w,
+                              vertical: 1.h,
                             ),
                             decoration: BoxDecoration(
                               shape: BoxShape.circle,
@@ -249,7 +249,7 @@ class _ProductDetailPageState extends State<ProductDetailPage> {
           ),
           SliverToBoxAdapter(
             child: Padding(
-              padding: EdgeInsets.symmetric(horizontal: 10.w, vertical: 10.h),
+              padding: EdgeInsets.symmetric(horizontal: 4.w, vertical: 1.h),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
@@ -261,15 +261,15 @@ class _ProductDetailPageState extends State<ProductDetailPage> {
                         maxLines: 2,
                         overflow: TextOverflow.ellipsis,
                         style: TextStyle(
-                          fontSize: 16.sp,
+                          fontSize: 18.sp,
                           fontWeight: FontWeight.bold,
                         ),
                       ),
                       Container(
-                        margin: EdgeInsets.only(left: 10.w),
+                        margin: EdgeInsets.only(left: 1.w),
                         decoration: BoxDecoration(
                           color: Theme.of(context).primaryColor,
-                          borderRadius: BorderRadius.circular(5.r),
+                          borderRadius: BorderRadius.circular(5),
                         ),
                         child: Row(mainAxisSize: MainAxisSize.min, children: [
                           IconButton(
@@ -316,14 +316,14 @@ class _ProductDetailPageState extends State<ProductDetailPage> {
                       )
                     ],
                   ),
-                  SizedBox(height: 5.h),
+                  // SizedBox(height: 5.0.h),
                   Text(
                     "Code : ${selectedAttributesValue.productCode}",
                     style: TextStyle(
                       fontSize: 16.sp,
                     ),
                   ),
-                  SizedBox(height: 5.h),
+                  SizedBox(height: 0.5.h),
                   Row(children: [
                     Text(
                       "Rs. ${selectedAttributesValue.productPrice}",
@@ -332,7 +332,7 @@ class _ProductDetailPageState extends State<ProductDetailPage> {
                         fontWeight: FontWeight.bold,
                       ),
                     ),
-                    SizedBox(width: 10.w),
+                    SizedBox(width: 3.w),
                     Text(
                       "Rs. ${selectedAttributesValue.productDiscount}",
                       style: TextStyle(
@@ -341,13 +341,13 @@ class _ProductDetailPageState extends State<ProductDetailPage> {
                           color: Theme.of(context).primaryColor,
                           decoration: TextDecoration.lineThrough),
                     ),
-                    SizedBox(width: 10.w),
+                    SizedBox(width: 3.w),
                     Container(
                       padding: const EdgeInsets.all(5),
                       decoration: BoxDecoration(
                         border: Border.all(
                             color: Theme.of(context).primaryColor, width: 2),
-                        borderRadius: BorderRadius.circular(10.r),
+                        borderRadius: BorderRadius.circular(10),
                       ),
                       child: Text(
                         "${selectedAttributesValue.productDiscountPercent} % off",
@@ -359,15 +359,15 @@ class _ProductDetailPageState extends State<ProductDetailPage> {
                       ),
                     ),
                   ]),
-                  SizedBox(height: 5.h),
+                  SizedBox(height: 0.5.h),
                   Text(
-                    "Rs. ${selectedAttributesValue.colorName}",
+                    selectedAttributesValue.colorName,
                     style: TextStyle(
                       fontSize: 16.sp,
                       fontWeight: FontWeight.bold,
                     ),
                   ),
-                  SizedBox(height: 5.h),
+                  // SizedBox(height: (5.h / 100)),
                   Row(
                       children: colorAttributes
                           .map((e) => Row(
@@ -381,8 +381,7 @@ class _ProductDetailPageState extends State<ProductDetailPage> {
                                       });
                                     },
                                     child: Container(
-                                      height: 40.h,
-                                      width: 40.w,
+                                      // padding: const EdgeInsets.all(15),
                                       decoration: BoxDecoration(
                                         shape: BoxShape.circle,
                                         border: Border.all(
@@ -392,9 +391,8 @@ class _ProductDetailPageState extends State<ProductDetailPage> {
                                         ),
                                       ),
                                       child: Container(
-                                        margin: const EdgeInsets.all(1),
-                                        height: 35.h,
-                                        width: 35.w,
+                                        padding: const EdgeInsets.all(20),
+                                        margin: const EdgeInsets.all(3),
                                         decoration: BoxDecoration(
                                           shape: BoxShape.circle,
                                           color: e.color,
@@ -402,13 +400,13 @@ class _ProductDetailPageState extends State<ProductDetailPage> {
                                       ),
                                     ),
                                   ),
-                                  SizedBox(width: 10.w),
+                                  // SizedBox(width: 2.w),
                                 ],
                               ))
                           .toList()),
-                  SizedBox(height: 5.h),
+                  SizedBox(height: 0.5.h),
                   _ratingsBar(),
-                  SizedBox(height: 5.h),
+                  SizedBox(height: 1.h),
                   _readMoreSection(
                     context: context,
                     title: 'Product Description',
@@ -421,10 +419,6 @@ class _ProductDetailPageState extends State<ProductDetailPage> {
                     description:
                         'Flutter is Google’s mobile UI open source framework to build high-quality native (super fast) interfaces for iOS and Android apps with the unified codebase.',
                   ),
-                  _messageSection(context),
-                  _messageSection(context),
-                  _messageSection(context),
-                  _messageSection(context),
                   _messageSection(context),
                 ],
               ),
@@ -474,14 +468,14 @@ _messageSection(BuildContext context) {
         fontWeight: FontWeight.bold,
       ),
     ),
-    SizedBox(height: 10.h),
+    SizedBox(height: 2.h),
     TextFormField(
       decoration: InputDecoration(
         border: OutlineInputBorder(
-          borderRadius: BorderRadius.circular(10.r),
+          borderRadius: BorderRadius.circular(10),
         ),
         enabledBorder: OutlineInputBorder(
-          borderRadius: BorderRadius.circular(10.r),
+          borderRadius: BorderRadius.circular(10),
         ),
         hintText: 'Send a message',
         suffixIcon: IconButton(
@@ -508,7 +502,7 @@ _readMoreSection(
         fontWeight: FontWeight.bold,
       ),
     ),
-    SizedBox(height: 5.h),
+    SizedBox(height: 0.5.h),
     ReadMoreText(
       description,
       trimMode: TrimMode.Line,
@@ -523,7 +517,7 @@ _readMoreSection(
       ),
     ),
     SizedBox(
-      height: 10.h,
+      height: 2.h,
     ),
   ]);
 }
