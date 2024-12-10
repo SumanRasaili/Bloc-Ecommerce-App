@@ -6,7 +6,7 @@ import 'package:oriflamenepal/core/service_locator/serv_locator.dart';
 import 'package:oriflamenepal/presentation/screens/splash_screen.dart';
 
 Future<void> main() async {
-  ServiceLocator.init();
+  ServiceLocator();
   await dotenv.load(fileName: ".env");
   runApp(const MyApp());
 }
