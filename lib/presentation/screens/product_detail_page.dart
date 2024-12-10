@@ -147,95 +147,103 @@ class _ProductDetailPageState extends State<ProductDetailPage> {
       body: CustomScrollView(
         slivers: [
           SliverAppBar(
-            floating: false,
-            pinned: false,
+            pinned: true,
+            surfaceTintColor: Colors.transparent,
+            title: Text(
+              '',
+              style: TextStyle(
+                color: Colors.black,
+                fontSize: 16.sp,
+              ),
+            ),
             automaticallyImplyLeading: true,
-            expandedHeight: 200.h,
-            // title: Text(
-            //   'Product Detail',
-            //   style: TextStyle(
-            //     color: Colors.black,
-            //     fontSize: 16.sp,
-            //   ),
-            // ),
+            expandedHeight: 250.h,
             centerTitle: true,
             flexibleSpace: FlexibleSpaceBar(
-              centerTitle: true,
-              titlePadding: EdgeInsets.only(bottom: 5.h),
-              title: Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: (imageUrls).asMap().entries.map((entry) {
-                  return GestureDetector(
-                    onTap: () =>
-                        carouselBannerController.animateToPage(entry.key),
-                    child: AnimatedContainer(
-                      duration: const Duration(milliseconds: 200),
-                      width: currentIndex == entry.key ? 20.w : 8.0.w,
-                      height: 10.h,
-                      margin: EdgeInsets.symmetric(
-                        horizontal: 4.0,
-                        vertical: 5.h,
-                      ),
-                      decoration: BoxDecoration(
-                        shape: BoxShape.circle,
-                        color: currentIndex == entry.key
-                            ? Theme.of(context).primaryColor
-                            : Colors.grey.shade200,
+              background: Stack(
+                children: [
+                  Positioned.fill(
+                    child: CarouselSlider(
+                      carouselController: carouselBannerController,
+                      items: imageUrls.map((item) {
+                        return CachedNetworkImage(
+                          imageUrl: item,
+                          height: 200.h,
+                          width: double.infinity,
+                          imageBuilder: (p0, p1) {
+                            return Container(
+                              height: 200.h,
+                              width: double.infinity,
+                              padding: EdgeInsets.zero,
+                              decoration: BoxDecoration(
+                                image: DecorationImage(
+                                    image: p1, fit: BoxFit.cover),
+                              ),
+                            );
+                          },
+                          errorWidget: (p0, p1, p2) {
+                            return Container(
+                              height: 200.h,
+                              decoration: BoxDecoration(
+                                borderRadius: BorderRadius.circular(10.r),
+                              ),
+                            );
+                          },
+                          placeholder: (p0, p1) {
+                            return Container(
+                              height: 200.h,
+                              width: double.infinity,
+                              decoration: BoxDecoration(
+                                color: Colors.grey.shade200,
+                              ),
+                            );
+                          },
+                        );
+                      }).toList(),
+                      options: CarouselOptions(
+                        initialPage: currentIndex,
+                        scrollPhysics: const BouncingScrollPhysics(),
+                        autoPlay: true,
+                        aspectRatio: 1.0,
+                        onPageChanged: (index, reason) {
+                          setState(() {
+                            currentIndex = index;
+                          });
+                        },
+                        viewportFraction: 1.0,
                       ),
                     ),
-                  );
-                }).toList(),
-              ),
-              background: Container(
-                color: Colors.red,
-                width: double.infinity,
-                height: MediaQuery.of(context).size.height,
-                child: CarouselSlider(
-                  carouselController: carouselBannerController,
-                  items: imageUrls.map((item) {
-                    return CachedNetworkImage(
-                      imageUrl: item,
-                      width: double.infinity,
-                      imageBuilder: (p0, p1) {
-                        return Container(
-                          width: double.infinity,
-                          padding: EdgeInsets.zero,
-                          decoration: BoxDecoration(
-                            image:
-                                DecorationImage(image: p1, fit: BoxFit.cover),
-                          ),
-                        );
-                      },
-                      errorWidget: (p0, p1, p2) {
-                        return Container(
-                          decoration: BoxDecoration(
-                            borderRadius: BorderRadius.circular(10.r),
-                          ),
-                        );
-                      },
-                      placeholder: (p0, p1) {
-                        return Container(
-                          width: double.infinity,
-                          decoration: BoxDecoration(
-                            color: Colors.grey.shade200,
-                          ),
-                        );
-                      },
-                    );
-                  }).toList(),
-                  options: CarouselOptions(
-                    initialPage: currentIndex,
-                    scrollPhysics: const BouncingScrollPhysics(),
-                    autoPlay: true,
-                    aspectRatio: 1.0,
-                    onPageChanged: (index, reason) {
-                      setState(() {
-                        currentIndex = index;
-                      });
-                    },
-                    viewportFraction: 1.0,
                   ),
-                ),
+                  Positioned(
+                    bottom: 10.h,
+                    left: 0,
+                    right: 0,
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: (imageUrls).asMap().entries.map((entry) {
+                        return GestureDetector(
+                          onTap: () =>
+                              carouselBannerController.animateToPage(entry.key),
+                          child: AnimatedContainer(
+                            duration: const Duration(milliseconds: 200),
+                            width: currentIndex == entry.key ? 20.w : 8.0.w,
+                            height: 10.h,
+                            margin: EdgeInsets.symmetric(
+                              horizontal: 4.0,
+                              vertical: 5.h,
+                            ),
+                            decoration: BoxDecoration(
+                              shape: BoxShape.circle,
+                              color: currentIndex == entry.key
+                                  ? Theme.of(context).primaryColor
+                                  : Colors.grey.shade200,
+                            ),
+                          ),
+                        );
+                      }).toList(),
+                    ),
+                  ),
+                ],
               ),
             ),
           ),
@@ -413,6 +421,10 @@ class _ProductDetailPageState extends State<ProductDetailPage> {
                     description:
                         'Flutter is Google’s mobile UI open source framework to build high-quality native (super fast) interfaces for iOS and Android apps with the unified codebase.',
                   ),
+                  _messageSection(context),
+                  _messageSection(context),
+                  _messageSection(context),
+                  _messageSection(context),
                   _messageSection(context),
                 ],
               ),
