@@ -117,7 +117,6 @@ class _ProductDetailPageState extends State<ProductDetailPage> {
     ];
 
     return Scaffold(
-      extendBody: true,
       persistentFooterButtons: [
         InkWell(
           onTap: () {
@@ -147,18 +146,60 @@ class _ProductDetailPageState extends State<ProductDetailPage> {
       ],
       body: CustomScrollView(
         slivers: [
-          SliverToBoxAdapter(
-            child: Stack(
-              children: [
-                CarouselSlider(
+          SliverAppBar(
+            floating: false,
+            pinned: false,
+            automaticallyImplyLeading: true,
+            expandedHeight: 200.h,
+            // title: Text(
+            //   'Product Detail',
+            //   style: TextStyle(
+            //     color: Colors.black,
+            //     fontSize: 16.sp,
+            //   ),
+            // ),
+            centerTitle: true,
+            flexibleSpace: FlexibleSpaceBar(
+              centerTitle: true,
+              titlePadding: EdgeInsets.only(bottom: 5.h),
+              title: Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: (imageUrls).asMap().entries.map((entry) {
+                  return GestureDetector(
+                    onTap: () =>
+                        carouselBannerController.animateToPage(entry.key),
+                    child: AnimatedContainer(
+                      duration: const Duration(milliseconds: 200),
+                      width: currentIndex == entry.key ? 20.w : 8.0.w,
+                      height: 10.h,
+                      margin: EdgeInsets.symmetric(
+                        horizontal: 4.0,
+                        vertical: 5.h,
+                      ),
+                      decoration: BoxDecoration(
+                        shape: BoxShape.circle,
+                        color: currentIndex == entry.key
+                            ? Theme.of(context).primaryColor
+                            : Colors.grey.shade200,
+                      ),
+                    ),
+                  );
+                }).toList(),
+              ),
+              background: Container(
+                color: Colors.red,
+                width: double.infinity,
+                height: MediaQuery.of(context).size.height,
+                child: CarouselSlider(
                   carouselController: carouselBannerController,
                   items: imageUrls.map((item) {
                     return CachedNetworkImage(
-                      height: 200.h,
                       imageUrl: item,
+                      width: double.infinity,
                       imageBuilder: (p0, p1) {
                         return Container(
-                          height: 200.h,
+                          width: double.infinity,
+                          padding: EdgeInsets.zero,
                           decoration: BoxDecoration(
                             image:
                                 DecorationImage(image: p1, fit: BoxFit.cover),
@@ -167,8 +208,6 @@ class _ProductDetailPageState extends State<ProductDetailPage> {
                       },
                       errorWidget: (p0, p1, p2) {
                         return Container(
-                          height: 200.h,
-                          margin: EdgeInsets.only(left: 16.w, right: 16.w),
                           decoration: BoxDecoration(
                             borderRadius: BorderRadius.circular(10.r),
                           ),
@@ -176,10 +215,8 @@ class _ProductDetailPageState extends State<ProductDetailPage> {
                       },
                       placeholder: (p0, p1) {
                         return Container(
-                          margin: EdgeInsets.only(left: 16.w, right: 16.w),
-                          height: 200.h,
+                          width: double.infinity,
                           decoration: BoxDecoration(
-                            borderRadius: BorderRadius.circular(10.r),
                             color: Colors.grey.shade200,
                           ),
                         );
@@ -190,8 +227,7 @@ class _ProductDetailPageState extends State<ProductDetailPage> {
                     initialPage: currentIndex,
                     scrollPhysics: const BouncingScrollPhysics(),
                     autoPlay: true,
-                    padEnds: true,
-                    aspectRatio: 2.0,
+                    aspectRatio: 1.0,
                     onPageChanged: (index, reason) {
                       setState(() {
                         currentIndex = index;
@@ -200,37 +236,7 @@ class _ProductDetailPageState extends State<ProductDetailPage> {
                     viewportFraction: 1.0,
                   ),
                 ),
-                SizedBox(height: 16.h),
-                Positioned(
-                  bottom: 10.h,
-                  left: 0.w,
-                  right: 0.w,
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: (imageUrls).asMap().entries.map((entry) {
-                      return GestureDetector(
-                        onTap: () =>
-                            carouselBannerController.animateToPage(entry.key),
-                        child: AnimatedContainer(
-                          duration: const Duration(milliseconds: 200),
-                          width: currentIndex == entry.key ? 20.w : 8.0.w,
-                          height: 10.h,
-                          margin: EdgeInsets.symmetric(
-                            horizontal: 4.0,
-                            vertical: 5.h,
-                          ),
-                          decoration: BoxDecoration(
-                            shape: BoxShape.circle,
-                            color: currentIndex == entry.key
-                                ? Theme.of(context).primaryColor
-                                : Colors.grey.shade200,
-                          ),
-                        ),
-                      );
-                    }).toList(),
-                  ),
-                ),
-              ],
+              ),
             ),
           ),
           SliverToBoxAdapter(
