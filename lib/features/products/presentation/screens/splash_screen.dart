@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:oriflamenepal/presentation/screens/all_product_screen.dart';
+import 'package:oriflamenepal/features/products/presentation/screens/all_product_screen.dart';
 
 class SplashScreen extends StatefulWidget {
   const SplashScreen({super.key});

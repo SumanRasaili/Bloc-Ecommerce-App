@@ -1,7 +1,7 @@
 import 'package:freezed_annotation/freezed_annotation.dart';
 
-part 'product_detail_model.freezed.dart';
-part 'product_detail_model.g.dart';
+part 'product_models.freezed.dart';
+part 'product_models.g.dart';
 
 @freezed
 class ProductDetailResponse with _$ProductDetailResponse {

@@ -4,7 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:oriflamenepal/config/theme/app_theme.dart';
 import 'package:oriflamenepal/core/service_locator/serv_locator.dart';
-import 'package:oriflamenepal/presentation/screens/splash_screen.dart';
+import 'package:oriflamenepal/features/products/presentation/screens/splash_screen.dart';
 import 'package:sizer/sizer.dart';
 
 Future<void> main() async {

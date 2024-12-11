@@ -2,7 +2,7 @@ import 'dart:developer';
 
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
-import 'package:oriflamenepal/presentation/screens/product_detail_page.dart';
+import 'package:oriflamenepal/features/products/presentation/screens/product_detail_page.dart';
 import 'package:sizer/sizer.dart';
 
 class AllProductsScreen extends StatefulWidget {
