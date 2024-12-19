@@ -155,7 +155,7 @@ class _ProductDetailPageState extends State<ProductDetailPage> {
           return const Center(child: CircularProgressIndicator());
         }, error: (message) {
           return Center(child: Text(message));
-        }, loaded: (productDetail, hh) {
+        }, loaded: (productDetail, selectedColorAttribute) {
           return CustomScrollView(
             slivers: [
               SliverAppBar(
@@ -388,9 +388,9 @@ class _ProductDetailPageState extends State<ProductDetailPage> {
                         ),
                       ),
                       // SizedBox(height: (5.h / 100)),
-                      productDetail.colorAttributes != null
+                      productDetail.colorAttributes.isNotEmpty
                           ? Row(
-                              children: (productDetail.colorAttributes ?? [])
+                              children: (productDetail.colorAttributes)
                                   .map((color) => Row(
                                         mainAxisAlignment:
                                             MainAxisAlignment.start,
@@ -408,10 +408,11 @@ class _ProductDetailPageState extends State<ProductDetailPage> {
                                               decoration: BoxDecoration(
                                                 shape: BoxShape.circle,
                                                 border: Border.all(
-                                                  color: selectedColor ==
-                                                          color.name
-                                                      ? Colors.black
-                                                      : Colors.transparent,
+                                                  color:
+                                                      selectedColorAttribute ==
+                                                              color.name
+                                                          ? Colors.black
+                                                          : Colors.transparent,
                                                 ),
                                               ),
                                               child: Container(
