@@ -10,11 +10,14 @@ import 'package:sizer/sizer.dart';
 Future<void> main() async {
   ServiceLocator();
   await dotenv.load(fileName: ".env");
-  runApp(DevicePreview(
+  runApp(
+    DevicePreview(
       enabled: !kReleaseMode,
       builder: (context) {
         return const MyApp();
-      }));
+      },
+    ),
+  );
 }
 
 class MyApp extends StatelessWidget {

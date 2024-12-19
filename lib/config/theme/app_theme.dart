@@ -9,7 +9,7 @@ class AppThemes {
       surfaceTintColor: Colors.transparent,
     ),
     // primaryColor: kprimaryColor,
-    scaffoldBackgroundColor: Colors.transparent,
+    scaffoldBackgroundColor: Colors.white,
     colorScheme: ColorScheme.fromSeed(
       seedColor: kprimaryColor,
       primary: kprimaryColor,
