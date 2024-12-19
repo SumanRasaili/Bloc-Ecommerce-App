@@ -15,6 +15,9 @@ class HomeScreen extends StatefulWidget {
 class _HomeScreenState extends State<HomeScreen> {
   @override
   Widget build(BuildContext context) {
+    context
+        .read<ProductsBloc>()
+        .add(const ProductsBlocEvent.fetchAllProducts());
     return Scaffold(
       appBar: AppBar(
         title: const Text('All Products'),

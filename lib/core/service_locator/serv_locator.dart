@@ -5,10 +5,10 @@ import 'package:oriflamenepal/features/products/repository/product_repository.da
 final GetIt serviceLocator = GetIt.instance;
 
 class ServiceLocator {
-  void init() {
+  void init() async{
     //dio
     serviceLocator.registerSingleton<DioManager>(DioManager());
     //repository
-    serviceLocator.registerSingleton<ProductRepository>(ProductRepository());
+    serviceLocator.registerSingleton<ProductRepository>(ProductRepository( dioManager: DioManager()));
   }
 }
