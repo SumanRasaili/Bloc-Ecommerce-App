@@ -37,11 +37,13 @@ class ProductDetailData with _$ProductDetailData {
     @JsonKey(name: "minOrder") int? minOrder,
     @JsonKey(name: "maxOrder") int? maxOrder,
     @JsonKey(name: "status") bool? status,
-    @JsonKey(name: "images") List<String>? images,
-    @JsonKey(name: "colorAttributes") List<Color>? colorAttributes,
+    @JsonKey(name: "images") @Default([]) List<String> images,
+    @JsonKey(name: "colorAttributes") @Default([]) List<Color> colorAttributes,
     @JsonKey(name: "sizeAttributes") List<dynamic>? sizeAttributes,
     @JsonKey(name: "variantType") String? variantType,
-    @JsonKey(name: "colorVariants") List<ColorVariant>? colorVariants,
+    @JsonKey(name: "colorVariants")
+    @Default([])
+    List<ColorVariant> colorVariants,
     @JsonKey(name: "ratings") int? ratings,
     @JsonKey(name: "totalRatings") int? totalRatings,
     @JsonKey(name: "ratedBy") int? ratedBy,

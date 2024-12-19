@@ -67,13 +67,6 @@ class _ProductDetailPageState extends State<ProductDetailPage> {
         .add(ProductDetailEvent.getProductDetail(slug: widget.slug));
 
     carouselBannerController = CarouselSliderController();
-    imageUrls = [
-      'https://images.unsplash.com/photo-1719937050679-c3a2c9c67b0f?q=80&w=2944&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D',
-      'https://images.unsplash.com/photo-1631011714977-a6068c048b7b?q=80&w=2874&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D',
-      'https://images.unsplash.com/photo-1719937050579-70e6f9ab58c4?q=80&w=2396&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D',
-      'https://images.unsplash.com/photo-1719937050814-72892488f741?q=80&w=2944&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D',
-      'https://images.unsplash.com/photo-1610415393323-4b7f2a9adcda?q=80&w=2787&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D',
-    ];
     colorAttributes = [
       ColorAttributes(
           productCode: '1234',
@@ -162,7 +155,7 @@ class _ProductDetailPageState extends State<ProductDetailPage> {
           return const Center(child: CircularProgressIndicator());
         }, error: (message) {
           return Center(child: Text(message));
-        }, loaded: (productDetail) {
+        }, loaded: (productDetail, hh) {
           return CustomScrollView(
             slivers: [
               SliverAppBar(
@@ -184,7 +177,7 @@ class _ProductDetailPageState extends State<ProductDetailPage> {
                       Positioned.fill(
                         child: CarouselSlider(
                           carouselController: carouselBannerController,
-                          items: (productDetail.images ?? []).map((item) {
+                          items: (productDetail.images).map((item) {
                             return CachedNetworkImage(
                               imageUrl: item,
                               width: double.infinity,
@@ -235,7 +228,7 @@ class _ProductDetailPageState extends State<ProductDetailPage> {
                         right: 0,
                         child: Row(
                           mainAxisAlignment: MainAxisAlignment.center,
-                          children: (productDetail.images ?? [])
+                          children: (productDetail.images)
                               .asMap()
                               .entries
                               .map((entry) {
@@ -395,43 +388,51 @@ class _ProductDetailPageState extends State<ProductDetailPage> {
                         ),
                       ),
                       // SizedBox(height: (5.h / 100)),
-                      Row(
-                          children: colorAttributes
-                              .map((e) => Row(
-                                    mainAxisAlignment: MainAxisAlignment.start,
-                                    children: [
-                                      InkWell(
-                                        onTap: () {
-                                          setState(() {
-                                            selectedColor = e.colorName;
-                                            selectedAttributesValue = e;
-                                          });
-                                        },
-                                        child: Container(
-                                          // padding: const EdgeInsets.all(15),
-                                          decoration: BoxDecoration(
-                                            shape: BoxShape.circle,
-                                            border: Border.all(
-                                              color:
-                                                  selectedColor == e.colorName
+                      productDetail.colorAttributes != null
+                          ? Row(
+                              children: (productDetail.colorAttributes ?? [])
+                                  .map((color) => Row(
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.start,
+                                        children: [
+                                          InkWell(
+                                            onTap: () {
+                                              setState(() {
+                                                selectedColor =
+                                                    color.name ?? "";
+                                                // selectedAttributesValue = color;
+                                              });
+                                            },
+                                            child: Container(
+                                              // padding: const EdgeInsets.all(15),
+                                              decoration: BoxDecoration(
+                                                shape: BoxShape.circle,
+                                                border: Border.all(
+                                                  color: selectedColor ==
+                                                          color.name
                                                       ? Colors.black
                                                       : Colors.transparent,
+                                                ),
+                                              ),
+                                              child: Container(
+                                                padding:
+                                                    const EdgeInsets.all(20),
+                                                margin: const EdgeInsets.all(3),
+                                                decoration: BoxDecoration(
+                                                  shape: BoxShape.circle,
+                                                  color: Color(int.parse(color
+                                                      .colorValue!.first
+                                                      .replaceAll(
+                                                          '#', '0xff'))),
+                                                ),
+                                              ),
                                             ),
                                           ),
-                                          child: Container(
-                                            padding: const EdgeInsets.all(20),
-                                            margin: const EdgeInsets.all(3),
-                                            decoration: BoxDecoration(
-                                              shape: BoxShape.circle,
-                                              color: e.color,
-                                            ),
-                                          ),
-                                        ),
-                                      ),
-                                      // SizedBox(width: 2.w),
-                                    ],
-                                  ))
-                              .toList()),
+                                          // SizedBox(width: 2.w),
+                                        ],
+                                      ))
+                                  .toList())
+                          : const SizedBox.shrink(),
                       SizedBox(height: 0.5.h),
                       _ratingsBar(
                           ratings:

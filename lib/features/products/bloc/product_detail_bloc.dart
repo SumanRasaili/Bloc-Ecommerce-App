@@ -21,7 +21,14 @@ class ProductDetailBloc extends Bloc<ProductDetailEvent, ProductDetailState> {
               await productRepository.getproductDetail(slug: value.slug);
 
           if (response != null) {
-            emit(ProductDetailState.loaded(response));
+            emit(
+              ProductDetailState.loaded(
+                productDetailData: response,
+                selectedColor: (response.colorAttributes.isNotEmpty)
+                    ? response.colorAttributes.first.name ?? ""
+                    : "",
+              ),
+            );
           } else {
             emit(const ProductDetailState.error("Something went wrong"));
           }
