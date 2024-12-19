@@ -1,5 +1,3 @@
-import 'dart:developer';
-
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
@@ -9,7 +7,7 @@ import 'package:oriflamenepal/config/color/app_colors.dart';
 import 'package:oriflamenepal/features/products/bloc/product_detail_bloc.dart';
 import 'package:quickalert/models/quickalert_type.dart';
 import 'package:quickalert/widgets/quickalert_dialog.dart';
-import 'package:readmore/readmore.dart';
+import 'package:parsed_readmore/parsed_readmore.dart';
 import 'package:sizer/sizer.dart';
 
 class ColorValues {
@@ -62,6 +60,10 @@ class _ProductDetailPageState extends State<ProductDetailPage> {
   @override
   void initState() {
     super.initState();
+    context
+        .read<ProductDetailBloc>()
+        .add(ProductDetailEvent.getProductDetail(slug: widget.slug));
+
     carouselBannerController = CarouselSliderController();
     imageUrls = [
       'https://images.unsplash.com/photo-1719937050679-c3a2c9c67b0f?q=80&w=2944&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D',
@@ -122,10 +124,6 @@ class _ProductDetailPageState extends State<ProductDetailPage> {
   int quantity = 1;
   @override
   Widget build(BuildContext context) {
-    context
-        .read<ProductDetailBloc>()
-        .add(ProductDetailEvent.getProductDetail(slug: widget.slug));
-    log("slug is ${widget.slug}");
     return Scaffold(
       persistentFooterButtons: [
         InkWell(
@@ -184,7 +182,7 @@ class _ProductDetailPageState extends State<ProductDetailPage> {
                       Positioned.fill(
                         child: CarouselSlider(
                           carouselController: carouselBannerController,
-                          items: imageUrls.map((item) {
+                          items: (productDetail.images ?? []).map((item) {
                             return CachedNetworkImage(
                               imageUrl: item,
                               width: double.infinity,
@@ -235,7 +233,10 @@ class _ProductDetailPageState extends State<ProductDetailPage> {
                         right: 0,
                         child: Row(
                           mainAxisAlignment: MainAxisAlignment.center,
-                          children: (imageUrls).asMap().entries.map((entry) {
+                          children: (productDetail.images ?? [])
+                              .asMap()
+                              .entries
+                              .map((entry) {
                             return GestureDetector(
                               onTap: () => carouselBannerController
                                   .animateToPage(entry.key),
@@ -272,7 +273,7 @@ class _ProductDetailPageState extends State<ProductDetailPage> {
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
                           Text(
-                            'Smart Sync Lipstick',
+                            productDetail.brand?.name ?? '---',
                             maxLines: 2,
                             overflow: TextOverflow.ellipsis,
                             style: TextStyle(
@@ -429,17 +430,13 @@ class _ProductDetailPageState extends State<ProductDetailPage> {
                       _ratingsBar(),
                       SizedBox(height: 1.h),
                       _readMoreSection(
-                        context: context,
-                        title: 'Product Description',
-                        description:
-                            'Flutter is Google’s mobile UI open source framework to build high-quality native (super fast) interfaces for iOS and Android apps with the unified codebase.',
-                      ),
+                          context: context,
+                          title: 'Product Description',
+                          description: productDetail.description ?? ""),
                       _readMoreSection(
-                        context: context,
-                        title: 'Product Ingredients',
-                        description:
-                            'Flutter is Google’s mobile UI open source framework to build high-quality native (super fast) interfaces for iOS and Android apps with the unified codebase.',
-                      ),
+                          context: context,
+                          title: 'Product Ingredients',
+                          description: productDetail.ingredient ?? ""),
                       _messageSection(context),
                     ],
                   ),
@@ -526,9 +523,13 @@ _readMoreSection(
       ),
     ),
     SizedBox(height: 0.5.h),
-    ReadMoreText(
+    ParsedReadMore(
+      urlTextStyle: TextStyle(
+          color: Colors.green,
+          fontSize: 20,
+          decoration: TextDecoration.underline),
       description,
-      trimMode: TrimMode.Line,
+      trimMode: TrimMode.line,
       trimLines: 2,
       colorClickableText: Colors.pink,
       trimCollapsedText: 'Show more',

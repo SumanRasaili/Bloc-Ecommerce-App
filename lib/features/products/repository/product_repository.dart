@@ -20,15 +20,11 @@ class ProductRepository {
     }
   }
 
-  Future<ProductDetailModel?> getproductDetail({required String slug}) async {
+  Future<ProductDetailData?> getproductDetail({required String slug}) async {
     try {
       final response = await dioManager.dio.get("/product/for-public/$slug");
       if (response.statusCode == 200) {
-        try {
-          return ProductDetailModel.fromJson(response.data["data"]);
-        } catch (e, stackTrace) {
-          log(stackTrace.toString());
-        }
+        return ProductDetailData.fromJson(response.data["data"]);
       }
       return null;
     } catch (e, stackTrace) {

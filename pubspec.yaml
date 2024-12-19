@@ -14,7 +14,7 @@ dependencies:
   json_annotation: ^4.9.0
   carousel_slider: ^5.0.0
   cached_network_image: ^3.4.1
-  readmore: ^3.0.0
+  parsed_readmore: ^0.0.9
   flutter_rating_bar: ^4.0.1
   quickalert: ^1.1.0
   flutter_bloc: ^8.1.6
@@ -25,6 +25,7 @@ dependencies:
   sizer: ^3.0.4
   device_preview: ^1.2.0
   freezed: ^2.5.7
+  flutter_html: ^3.0.0-beta.2
 
 dev_dependencies:
   flutter_test:

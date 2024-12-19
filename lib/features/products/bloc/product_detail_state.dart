@@ -5,6 +5,6 @@ class ProductDetailState with _$ProductDetailState {
   const factory ProductDetailState.initial() = _Initial;
   const factory ProductDetailState.loading() = _Loading;
   const factory ProductDetailState.loaded(
-      ProductDetailModel productDetailData) = _Loaded;
+      ProductDetailData productDetailData) = _Loaded;
   const factory ProductDetailState.error(String message) = _Error;
 }

@@ -19,7 +19,7 @@ class ProductDetailBloc extends Bloc<ProductDetailEvent, ProductDetailState> {
         try {
           final response =
               await productRepository.getproductDetail(slug: value.slug);
-          log("product detail   response $response");
+
           if (response != null) {
             emit(ProductDetailState.loaded(response));
           } else {

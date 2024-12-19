@@ -31,7 +31,6 @@ class ProductDetailData with _$ProductDetailData {
     @JsonKey(name: "howToUse") String? howToUse,
     @JsonKey(name: "description") String? description,
     @JsonKey(name: "price") int? price,
-    @JsonKey(name: "rewardPoint") int? rewardPoint,
     @JsonKey(name: "commissionPercentage") int? commissionPercentage,
     @JsonKey(name: "strikePrice") int? strikePrice,
     @JsonKey(name: "offPercent") int? offPercent,
@@ -46,9 +45,7 @@ class ProductDetailData with _$ProductDetailData {
     @JsonKey(name: "ratings") int? ratings,
     @JsonKey(name: "totalRatings") int? totalRatings,
     @JsonKey(name: "ratedBy") int? ratedBy,
-    @JsonKey(name: "filterOptions")
-    @JsonKey(name: "metaRobots")
-    String? metaRobots,
+    @JsonKey(name: "metaRobots") String? metaRobots,
     @JsonKey(name: "isTodaysDeal") bool? isTodaysDeal,
     @JsonKey(name: "isFeatured") bool? isFeatured,
     @JsonKey(name: "isPublished") bool? isPublished,
@@ -60,7 +57,6 @@ class ProductDetailData with _$ProductDetailData {
     @JsonKey(name: "__v") int? v,
     @JsonKey(name: "noneText") String? noneText,
     @JsonKey(name: "breadCrums") List<BreadCrum>? breadCrums,
-    @JsonKey(name: "wished") bool? wished,
   }) = _ProductDetailData;
 
   factory ProductDetailData.fromJson(Map<String, dynamic> json) =>
