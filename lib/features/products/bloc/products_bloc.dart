@@ -8,8 +8,8 @@ part 'products_bloc.freezed.dart';
 part 'products_event.dart';
 part 'products_state.dart';
 
-class ProductsBlocBloc extends Bloc<ProductsBlocEvent, ProductsBlocState> {
-  ProductsBlocBloc() : super(const ProductsBlocState.initial()) {
+class ProductsBloc extends Bloc<ProductsBlocEvent, ProductsBlocState> {
+  ProductsBloc() : super(const ProductsBlocState.initial()) {
     final productRepo = serviceLocator<ProductRepository>();
     on<ProductsBlocEvent>(
       (event, emit) async {

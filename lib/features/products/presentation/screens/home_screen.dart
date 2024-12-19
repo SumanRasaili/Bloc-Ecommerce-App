@@ -5,14 +5,14 @@ import 'package:flutter/material.dart';
 import 'package:oriflamenepal/features/products/presentation/screens/product_detail_page.dart';
 import 'package:sizer/sizer.dart';
 
-class AllProductsScreen extends StatefulWidget {
-  const AllProductsScreen({super.key});
+class HomeScreen extends StatefulWidget {
+  const HomeScreen({super.key});
 
   @override
-  State<AllProductsScreen> createState() => _AllProductsScreenState();
+  State<HomeScreen> createState() => _HomeScreenState();
 }
 
-class _AllProductsScreenState extends State<AllProductsScreen> {
+class _HomeScreenState extends State<HomeScreen> {
   @override
   Widget build(BuildContext context) {
     log("Device width ${MediaQuery.of(context).size.width}");

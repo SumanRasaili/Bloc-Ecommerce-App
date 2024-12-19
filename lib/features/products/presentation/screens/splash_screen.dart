@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:oriflamenepal/features/products/presentation/screens/all_product_screen.dart';
+import 'package:oriflamenepal/features/products/presentation/screens/home_screen.dart';
 
 class SplashScreen extends StatefulWidget {
   const SplashScreen({super.key});
@@ -16,7 +16,7 @@ class _SplashScreenState extends State<SplashScreen> {
       if (mounted) {
         Navigator.of(context).pushAndRemoveUntil(
             MaterialPageRoute(
-              builder: (context) => const AllProductsScreen(),
+              builder: (context) => const HomeScreen(),
             ),
             (route) => false);
       }

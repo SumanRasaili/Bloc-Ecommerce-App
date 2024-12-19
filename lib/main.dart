@@ -1,9 +1,11 @@
 import 'package:device_preview/device_preview.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:oriflamenepal/config/theme/app_theme.dart';
 import 'package:oriflamenepal/core/service_locator/serv_locator.dart';
+import 'package:oriflamenepal/features/products/bloc/products_bloc.dart';
 import 'package:oriflamenepal/features/products/presentation/screens/splash_screen.dart';
 import 'package:sizer/sizer.dart';
 
@@ -27,11 +29,14 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return Sizer(
       builder: (p0, p1, ScreenType p2) {
-        return MaterialApp(
-          title: 'Oriflame Nepal',
-          theme: AppThemes.lightTheme,
-          debugShowCheckedModeBanner: false,
-          home: const SplashScreen(),
+        return BlocProvider(
+          create: (context) => ProductsBloc(),
+          child: MaterialApp(
+            title: 'Oriflame Nepal',
+            theme: AppThemes.lightTheme,
+            debugShowCheckedModeBanner: false,
+            home: const SplashScreen(),
+          ),
         );
       },
     );
