@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:oriflamenepal/features/products/models/product_detail/product_detail_model.dart';
@@ -17,12 +19,14 @@ class ProductDetailBloc extends Bloc<ProductDetailEvent, ProductDetailState> {
         try {
           final response =
               await productRepository.getproductDetail(slug: value.slug);
+          log("product detail   response $response");
           if (response != null) {
             emit(ProductDetailState.loaded(response));
           } else {
             emit(const ProductDetailState.error("Something went wrong"));
           }
-        } catch (e) {
+        } catch (e, stackTrace) {
+          log(stackTrace.toString());
           emit(ProductDetailState.error(e.toString()));
         }
       });

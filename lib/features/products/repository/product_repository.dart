@@ -1,5 +1,6 @@
+import 'dart:developer';
+
 import 'package:oriflamenepal/core/dio/dio_manager.dart';
-import 'package:oriflamenepal/core/service_locator/serv_locator.dart';
 import 'package:oriflamenepal/features/products/models/all_products_model/all_products_model.dart';
 import 'package:oriflamenepal/features/products/models/product_detail/product_detail_model.dart';
 
@@ -19,14 +20,19 @@ class ProductRepository {
     }
   }
 
-  Future<ProductDetailData?> getproductDetail({required String slug}) async {
+  Future<ProductDetailModel?> getproductDetail({required String slug}) async {
     try {
-      final response = await dioManager.dio.get("/for-public/");
+      final response = await dioManager.dio.get("/product/for-public/$slug");
       if (response.statusCode == 200) {
-        return ProductDetailData.fromJson(response.data["data"]);
+        try {
+          return ProductDetailModel.fromJson(response.data["data"]);
+        } catch (e, stackTrace) {
+          log(stackTrace.toString());
+        }
       }
       return null;
-    } catch (e) {
+    } catch (e, stackTrace) {
+      log(stackTrace.toString());
       rethrow;
     }
   }

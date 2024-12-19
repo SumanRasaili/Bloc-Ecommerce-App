@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
@@ -120,9 +122,10 @@ class _ProductDetailPageState extends State<ProductDetailPage> {
   int quantity = 1;
   @override
   Widget build(BuildContext context) {
-    final productDetail = context
+    context
         .read<ProductDetailBloc>()
         .add(ProductDetailEvent.getProductDetail(slug: widget.slug));
+    log("slug is ${widget.slug}");
     return Scaffold(
       persistentFooterButtons: [
         InkWell(
