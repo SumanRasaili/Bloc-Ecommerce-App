@@ -57,7 +57,17 @@ class _ProductDetailPageState extends State<ProductDetailPage> {
   List<ColorAttributes> colorAttributes = [];
   String selectedColor = '';
   @override
-  void initState() {
+/*************  ✨ Codeium Command ⭐  *************/
+  /// Called when the widget is inserted into the tree.
+  ///
+  /// This initializes the product image urls and color attributes for the product detail page.
+  ///
+  /// The image urls are hard-coded for now, but they should be replaced with the actual API call to get the product images.
+  ///
+  /// The color attributes are also hard-coded for now, but they should be replaced with the actual API call to get the product color attributes.
+  ///
+  /// The selected color is set to the first color attribute in the list.
+/******  3d6745a3-78d3-464d-be13-61fd3f9ee4b4  *******/  void initState() {
     super.initState();
     carouselBannerController = CarouselSliderController();
     imageUrls = [

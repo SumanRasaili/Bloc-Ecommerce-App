@@ -12,7 +12,7 @@ class ProductDetailModel with _$ProductDetailModel {
   const factory ProductDetailModel({
     @JsonKey(name: "title") String? title,
     @JsonKey(name: "message") String? message,
-    @JsonKey(name: "data") Data? data,
+    @JsonKey(name: "data") ProductDetailData? data,
   }) = _ProductDetailModel;
 
   factory ProductDetailModel.fromJson(Map<String, dynamic> json) =>
@@ -20,8 +20,8 @@ class ProductDetailModel with _$ProductDetailModel {
 }
 
 @freezed
-class Data with _$Data {
-  const factory Data({
+class ProductDetailData with _$ProductDetailData {
+  const factory ProductDetailData({
     @JsonKey(name: "_id") String? id,
     @JsonKey(name: "slug") String? slug,
     @JsonKey(name: "category") Category? category,
@@ -60,9 +60,9 @@ class Data with _$Data {
     @JsonKey(name: "noneText") String? noneText,
     @JsonKey(name: "breadCrums") List<BreadCrum>? breadCrums,
     @JsonKey(name: "wished") bool? wished,
-  }) = _Data;
+  }) = _ProductDetailData;
 
-  factory Data.fromJson(Map<String, dynamic> json) => _$DataFromJson(json);
+  factory ProductDetailData.fromJson(Map<String, dynamic> json) => _$ProductDetailDataFromJson(json);
 }
 
 @freezed

@@ -1,7 +1,6 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:flutter_widget_from_html_core/flutter_widget_from_html_core.dart';
 import 'package:oriflamenepal/features/products/bloc/products_bloc.dart';
 import 'package:oriflamenepal/features/products/presentation/screens/product_detail_page.dart';
 import 'package:sizer/sizer.dart';
@@ -112,17 +111,17 @@ class _HomeScreenState extends State<HomeScreen> {
                                                     CrossAxisAlignment.start,
                                                 children: [
                                                   Text(
-                                                    productData?.title ?? "",
-                                                  ),
-                                                  HtmlWidget(
-                                                    productData?.description ??
+                                                    productData?.brand?.name ??
                                                         "",
-                                                    textStyle: const TextStyle(
-                                                        overflow: TextOverflow
-                                                            .ellipsis,
-                                                        decoration:
-                                                            TextDecoration
-                                                                .none),
+                                                    maxLines: 1,
+                                                    overflow:
+                                                        TextOverflow.ellipsis,
+                                                  ),
+                                                  Text(
+                                                    productData?.title ?? "",
+                                                    maxLines: 2,
+                                                    overflow:
+                                                        TextOverflow.ellipsis,
                                                   ),
                                                   Row(
                                                     children: [
