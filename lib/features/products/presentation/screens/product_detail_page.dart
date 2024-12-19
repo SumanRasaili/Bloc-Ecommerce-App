@@ -3,11 +3,12 @@ import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
+import 'package:html/parser.dart';
 import 'package:oriflamenepal/config/color/app_colors.dart';
 import 'package:oriflamenepal/features/products/bloc/product_detail_bloc.dart';
 import 'package:quickalert/models/quickalert_type.dart';
 import 'package:quickalert/widgets/quickalert_dialog.dart';
-import 'package:parsed_readmore/parsed_readmore.dart';
+import 'package:readmore/readmore.dart';
 import 'package:sizer/sizer.dart';
 
 class ColorValues {
@@ -174,7 +175,7 @@ class _ProductDetailPageState extends State<ProductDetailPage> {
                   ),
                 ),
                 automaticallyImplyLeading: true,
-                expandedHeight: 22.sh,
+                expandedHeight: 25.sh,
                 centerTitle: true,
                 flexibleSpace: FlexibleSpaceBar(
                   background: Stack(
@@ -523,19 +524,15 @@ _readMoreSection(
       ),
     ),
     SizedBox(height: 0.5.h),
-    ParsedReadMore(
-      urlTextStyle: TextStyle(
-          color: Colors.green,
-          fontSize: 20,
-          decoration: TextDecoration.underline),
-      description,
-      trimMode: TrimMode.line,
+    ReadMoreText(
+      parse(description).body?.text ?? "",
+      trimMode: TrimMode.Line,
       trimLines: 2,
       colorClickableText: Colors.pink,
       trimCollapsedText: 'Show more',
       trimExpandedText: 'Show less',
-      moreStyle: TextStyle(
-        fontSize: 14.sp,
+      moreStyle: const TextStyle(
+        fontSize: 14,
         fontWeight: FontWeight.bold,
         color: kprimaryColor,
       ),
