@@ -1,5 +1,3 @@
-import 'dart:developer';
-
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
@@ -122,7 +120,9 @@ class _ProductDetailPageState extends State<ProductDetailPage> {
   int quantity = 1;
   @override
   Widget build(BuildContext context) {
-   final productDetail = context.read<ProductDetailBloc>().add(ProductDetailEvent.getProductDetail(slug:widget.slug));
+    final productDetail = context
+        .read<ProductDetailBloc>()
+        .add(ProductDetailEvent.getProductDetail(slug: widget.slug));
     return Scaffold(
       persistentFooterButtons: [
         InkWell(
@@ -151,284 +151,301 @@ class _ProductDetailPageState extends State<ProductDetailPage> {
           ),
         )
       ],
-      body: CustomScrollView(
-        slivers: [
-          SliverAppBar(
-            pinned: true,
-            surfaceTintColor: Colors.transparent,
-            title: Text(
-              '',
-              style: TextStyle(
-                color: Colors.black,
-                fontSize: 16.sp,
-              ),
-            ),
-            automaticallyImplyLeading: true,
-            expandedHeight: 22.sh,
-            centerTitle: true,
-            flexibleSpace: FlexibleSpaceBar(
-              background: Stack(
-                children: [
-                  Positioned.fill(
-                    child: CarouselSlider(
-                      carouselController: carouselBannerController,
-                      items: imageUrls.map((item) {
-                        return CachedNetworkImage(
-                          imageUrl: item,
-                          width: double.infinity,
-                          imageBuilder: (p0, p1) {
-                            return Container(
-                              width: double.infinity,
-                              padding: EdgeInsets.zero,
-                              decoration: BoxDecoration(
-                                image: DecorationImage(
-                                    image: p1, fit: BoxFit.cover),
-                              ),
-                            );
-                          },
-                          errorWidget: (p0, p1, p2) {
-                            return Container(
-                              decoration: BoxDecoration(
-                                borderRadius: BorderRadius.circular(10),
-                              ),
-                            );
-                          },
-                          placeholder: (p0, p1) {
-                            return Container(
-                              width: double.infinity,
-                              decoration: BoxDecoration(
-                                color: Colors.grey.shade200,
-                              ),
-                            );
-                          },
-                        );
-                      }).toList(),
-                      options: CarouselOptions(
-                        initialPage: currentIndex,
-                        scrollPhysics: const BouncingScrollPhysics(),
-                        autoPlay: true,
-                        aspectRatio: 1.0,
-                        onPageChanged: (index, reason) {
-                          setState(() {
-                            currentIndex = index;
-                          });
-                        },
-                        viewportFraction: 1.0,
-                      ),
-                    ),
+      body: BlocBuilder<ProductDetailBloc, ProductDetailState>(
+          builder: (context, state) {
+        return state.when(initial: () {
+          return const Center(child: CircularProgressIndicator());
+        }, loading: () {
+          return const Center(child: CircularProgressIndicator());
+        }, error: (message) {
+          return Center(child: Text(message));
+        }, loaded: (productDetail) {
+          return CustomScrollView(
+            slivers: [
+              SliverAppBar(
+                pinned: true,
+                surfaceTintColor: Colors.transparent,
+                title: Text(
+                  '',
+                  style: TextStyle(
+                    color: Colors.black,
+                    fontSize: 16.sp,
                   ),
-                  Positioned(
-                    bottom: 0.h,
-                    left: 0,
-                    right: 0,
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: (imageUrls).asMap().entries.map((entry) {
-                        return GestureDetector(
-                          onTap: () =>
-                              carouselBannerController.animateToPage(entry.key),
-                          child: AnimatedContainer(
-                            duration: const Duration(milliseconds: 200),
-                            width: currentIndex == entry.key ? 4.w : 4.w,
-                            height: 1.5.h,
-                            margin: EdgeInsets.symmetric(
-                              horizontal: 1.5.w,
-                              vertical: 1.h,
-                            ),
-                            decoration: BoxDecoration(
-                              shape: BoxShape.circle,
-                              color: currentIndex == entry.key
-                                  ? Theme.of(context).primaryColor
-                                  : Colors.grey.shade200,
-                            ),
-                          ),
-                        );
-                      }).toList(),
-                    ),
-                  ),
-                ],
-              ),
-            ),
-          ),
-          SliverToBoxAdapter(
-            child: Padding(
-              padding: EdgeInsets.symmetric(horizontal: 4.w, vertical: 1.h),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                ),
+                automaticallyImplyLeading: true,
+                expandedHeight: 22.sh,
+                centerTitle: true,
+                flexibleSpace: FlexibleSpaceBar(
+                  background: Stack(
                     children: [
-                      Text(
-                        'Smart Sync Lipstick',
-                        maxLines: 2,
-                        overflow: TextOverflow.ellipsis,
-                        style: TextStyle(
-                          fontSize: 18.sp,
-                          fontWeight: FontWeight.bold,
-                        ),
-                      ),
-                      Container(
-                        margin: EdgeInsets.only(left: 1.w),
-                        decoration: BoxDecoration(
-                          color: Theme.of(context).primaryColor,
-                          borderRadius: BorderRadius.circular(5),
-                        ),
-                        child: Row(mainAxisSize: MainAxisSize.min, children: [
-                          IconButton(
-                            onPressed: () {
+                      Positioned.fill(
+                        child: CarouselSlider(
+                          carouselController: carouselBannerController,
+                          items: imageUrls.map((item) {
+                            return CachedNetworkImage(
+                              imageUrl: item,
+                              width: double.infinity,
+                              imageBuilder: (p0, p1) {
+                                return Container(
+                                  width: double.infinity,
+                                  padding: EdgeInsets.zero,
+                                  decoration: BoxDecoration(
+                                    image: DecorationImage(
+                                        image: p1, fit: BoxFit.cover),
+                                  ),
+                                );
+                              },
+                              errorWidget: (p0, p1, p2) {
+                                return Container(
+                                  decoration: BoxDecoration(
+                                    borderRadius: BorderRadius.circular(10),
+                                  ),
+                                );
+                              },
+                              placeholder: (p0, p1) {
+                                return Container(
+                                  width: double.infinity,
+                                  decoration: BoxDecoration(
+                                    color: Colors.grey.shade200,
+                                  ),
+                                );
+                              },
+                            );
+                          }).toList(),
+                          options: CarouselOptions(
+                            initialPage: currentIndex,
+                            scrollPhysics: const BouncingScrollPhysics(),
+                            autoPlay: true,
+                            aspectRatio: 1.0,
+                            onPageChanged: (index, reason) {
                               setState(() {
-                                if (quantity > 1) {
-                                  quantity--;
-                                }
+                                currentIndex = index;
                               });
                             },
-                            icon: Icon(
-                              Icons.remove,
-                              color: quantity > 1
-                                  ? Theme.of(context).scaffoldBackgroundColor
-                                  : Colors.grey,
-                            ),
-                            visualDensity: const VisualDensity(
-                                vertical: -3, horizontal: -3),
+                            viewportFraction: 1.0,
                           ),
-                          SizedBox(width: 5.w),
+                        ),
+                      ),
+                      Positioned(
+                        bottom: 0.h,
+                        left: 0,
+                        right: 0,
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: (imageUrls).asMap().entries.map((entry) {
+                            return GestureDetector(
+                              onTap: () => carouselBannerController
+                                  .animateToPage(entry.key),
+                              child: AnimatedContainer(
+                                duration: const Duration(milliseconds: 200),
+                                width: currentIndex == entry.key ? 4.w : 4.w,
+                                height: 1.5.h,
+                                margin: EdgeInsets.symmetric(
+                                  horizontal: 1.5.w,
+                                  vertical: 1.h,
+                                ),
+                                decoration: BoxDecoration(
+                                  shape: BoxShape.circle,
+                                  color: currentIndex == entry.key
+                                      ? Theme.of(context).primaryColor
+                                      : Colors.grey.shade200,
+                                ),
+                              ),
+                            );
+                          }).toList(),
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+              ),
+              SliverToBoxAdapter(
+                child: Padding(
+                  padding: EdgeInsets.symmetric(horizontal: 4.w, vertical: 1.h),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
                           Text(
-                            quantity.toString(),
+                            'Smart Sync Lipstick',
+                            maxLines: 2,
+                            overflow: TextOverflow.ellipsis,
+                            style: TextStyle(
+                              fontSize: 18.sp,
+                              fontWeight: FontWeight.bold,
+                            ),
+                          ),
+                          Container(
+                            margin: EdgeInsets.only(left: 1.w),
+                            decoration: BoxDecoration(
+                              color: Theme.of(context).primaryColor,
+                              borderRadius: BorderRadius.circular(5),
+                            ),
+                            child:
+                                Row(mainAxisSize: MainAxisSize.min, children: [
+                              IconButton(
+                                onPressed: () {
+                                  setState(() {
+                                    if (quantity > 1) {
+                                      quantity--;
+                                    }
+                                  });
+                                },
+                                icon: Icon(
+                                  Icons.remove,
+                                  color: quantity > 1
+                                      ? Theme.of(context)
+                                          .scaffoldBackgroundColor
+                                      : Colors.grey,
+                                ),
+                                visualDensity: const VisualDensity(
+                                    vertical: -3, horizontal: -3),
+                              ),
+                              SizedBox(width: 5.w),
+                              Text(
+                                quantity.toString(),
+                                style: TextStyle(
+                                  fontSize: 16.sp,
+                                  fontWeight: FontWeight.bold,
+                                  color:
+                                      Theme.of(context).scaffoldBackgroundColor,
+                                ),
+                              ),
+                              SizedBox(width: 5.w),
+                              IconButton(
+                                onPressed: () {
+                                  setState(() {
+                                    quantity++;
+                                  });
+                                },
+                                icon: Icon(
+                                  Icons.add,
+                                  color:
+                                      Theme.of(context).scaffoldBackgroundColor,
+                                ),
+                                visualDensity: const VisualDensity(
+                                    horizontal: -3, vertical: -3),
+                              ),
+                            ]),
+                          )
+                        ],
+                      ),
+                      // SizedBox(height: 5.0.h),
+                      Text(
+                        "Code : ${selectedAttributesValue.productCode}",
+                        style: TextStyle(
+                          fontSize: 16.sp,
+                        ),
+                      ),
+                      SizedBox(height: 0.5.h),
+                      Row(children: [
+                        Text(
+                          "Rs. ${selectedAttributesValue.productPrice}",
+                          style: TextStyle(
+                            fontSize: 16.sp,
+                            fontWeight: FontWeight.bold,
+                          ),
+                        ),
+                        SizedBox(width: 3.w),
+                        Text(
+                          "Rs. ${selectedAttributesValue.productDiscount}",
+                          style: TextStyle(
+                              fontSize: 16.sp,
+                              fontWeight: FontWeight.bold,
+                              color: Theme.of(context).primaryColor,
+                              decoration: TextDecoration.lineThrough),
+                        ),
+                        SizedBox(width: 3.w),
+                        Container(
+                          padding: const EdgeInsets.all(5),
+                          decoration: BoxDecoration(
+                            border: Border.all(
+                                color: Theme.of(context).primaryColor,
+                                width: 2),
+                            borderRadius: BorderRadius.circular(10),
+                          ),
+                          child: Text(
+                            "${selectedAttributesValue.productDiscountPercent} % off",
                             style: TextStyle(
                               fontSize: 16.sp,
                               fontWeight: FontWeight.bold,
-                              color: Theme.of(context).scaffoldBackgroundColor,
+                              color: Theme.of(context).primaryColor,
                             ),
                           ),
-                          SizedBox(width: 5.w),
-                          IconButton(
-                            onPressed: () {
-                              setState(() {
-                                quantity++;
-                              });
-                            },
-                            icon: Icon(
-                              Icons.add,
-                              color: Theme.of(context).scaffoldBackgroundColor,
-                            ),
-                            visualDensity: const VisualDensity(
-                                horizontal: -3, vertical: -3),
-                          ),
-                        ]),
-                      )
-                    ],
-                  ),
-                  // SizedBox(height: 5.0.h),
-                  Text(
-                    "Code : ${selectedAttributesValue.productCode}",
-                    style: TextStyle(
-                      fontSize: 16.sp,
-                    ),
-                  ),
-                  SizedBox(height: 0.5.h),
-                  Row(children: [
-                    Text(
-                      "Rs. ${selectedAttributesValue.productPrice}",
-                      style: TextStyle(
-                        fontSize: 16.sp,
-                        fontWeight: FontWeight.bold,
-                      ),
-                    ),
-                    SizedBox(width: 3.w),
-                    Text(
-                      "Rs. ${selectedAttributesValue.productDiscount}",
-                      style: TextStyle(
-                          fontSize: 16.sp,
-                          fontWeight: FontWeight.bold,
-                          color: Theme.of(context).primaryColor,
-                          decoration: TextDecoration.lineThrough),
-                    ),
-                    SizedBox(width: 3.w),
-                    Container(
-                      padding: const EdgeInsets.all(5),
-                      decoration: BoxDecoration(
-                        border: Border.all(
-                            color: Theme.of(context).primaryColor, width: 2),
-                        borderRadius: BorderRadius.circular(10),
-                      ),
-                      child: Text(
-                        "${selectedAttributesValue.productDiscountPercent} % off",
+                        ),
+                      ]),
+                      SizedBox(height: 0.5.h),
+                      Text(
+                        selectedAttributesValue.colorName,
                         style: TextStyle(
                           fontSize: 16.sp,
                           fontWeight: FontWeight.bold,
-                          color: Theme.of(context).primaryColor,
                         ),
                       ),
-                    ),
-                  ]),
-                  SizedBox(height: 0.5.h),
-                  Text(
-                    selectedAttributesValue.colorName,
-                    style: TextStyle(
-                      fontSize: 16.sp,
-                      fontWeight: FontWeight.bold,
-                    ),
-                  ),
-                  // SizedBox(height: (5.h / 100)),
-                  Row(
-                      children: colorAttributes
-                          .map((e) => Row(
-                                mainAxisAlignment: MainAxisAlignment.start,
-                                children: [
-                                  InkWell(
-                                    onTap: () {
-                                      setState(() {
-                                        selectedColor = e.colorName;
-                                        selectedAttributesValue = e;
-                                      });
-                                    },
-                                    child: Container(
-                                      // padding: const EdgeInsets.all(15),
-                                      decoration: BoxDecoration(
-                                        shape: BoxShape.circle,
-                                        border: Border.all(
-                                          color: selectedColor == e.colorName
-                                              ? Colors.black
-                                              : Colors.transparent,
+                      // SizedBox(height: (5.h / 100)),
+                      Row(
+                          children: colorAttributes
+                              .map((e) => Row(
+                                    mainAxisAlignment: MainAxisAlignment.start,
+                                    children: [
+                                      InkWell(
+                                        onTap: () {
+                                          setState(() {
+                                            selectedColor = e.colorName;
+                                            selectedAttributesValue = e;
+                                          });
+                                        },
+                                        child: Container(
+                                          // padding: const EdgeInsets.all(15),
+                                          decoration: BoxDecoration(
+                                            shape: BoxShape.circle,
+                                            border: Border.all(
+                                              color:
+                                                  selectedColor == e.colorName
+                                                      ? Colors.black
+                                                      : Colors.transparent,
+                                            ),
+                                          ),
+                                          child: Container(
+                                            padding: const EdgeInsets.all(20),
+                                            margin: const EdgeInsets.all(3),
+                                            decoration: BoxDecoration(
+                                              shape: BoxShape.circle,
+                                              color: e.color,
+                                            ),
+                                          ),
                                         ),
                                       ),
-                                      child: Container(
-                                        padding: const EdgeInsets.all(20),
-                                        margin: const EdgeInsets.all(3),
-                                        decoration: BoxDecoration(
-                                          shape: BoxShape.circle,
-                                          color: e.color,
-                                        ),
-                                      ),
-                                    ),
-                                  ),
-                                  // SizedBox(width: 2.w),
-                                ],
-                              ))
-                          .toList()),
-                  SizedBox(height: 0.5.h),
-                  _ratingsBar(),
-                  SizedBox(height: 1.h),
-                  _readMoreSection(
-                    context: context,
-                    title: 'Product Description',
-                    description:
-                        'Flutter is Google’s mobile UI open source framework to build high-quality native (super fast) interfaces for iOS and Android apps with the unified codebase.',
+                                      // SizedBox(width: 2.w),
+                                    ],
+                                  ))
+                              .toList()),
+                      SizedBox(height: 0.5.h),
+                      _ratingsBar(),
+                      SizedBox(height: 1.h),
+                      _readMoreSection(
+                        context: context,
+                        title: 'Product Description',
+                        description:
+                            'Flutter is Google’s mobile UI open source framework to build high-quality native (super fast) interfaces for iOS and Android apps with the unified codebase.',
+                      ),
+                      _readMoreSection(
+                        context: context,
+                        title: 'Product Ingredients',
+                        description:
+                            'Flutter is Google’s mobile UI open source framework to build high-quality native (super fast) interfaces for iOS and Android apps with the unified codebase.',
+                      ),
+                      _messageSection(context),
+                    ],
                   ),
-                  _readMoreSection(
-                    context: context,
-                    title: 'Product Ingredients',
-                    description:
-                        'Flutter is Google’s mobile UI open source framework to build high-quality native (super fast) interfaces for iOS and Android apps with the unified codebase.',
-                  ),
-                  _messageSection(context),
-                ],
+                ),
               ),
-            ),
-          ),
-        ],
-      ),
+            ],
+          );
+        });
+      }),
     );
   }
 }
