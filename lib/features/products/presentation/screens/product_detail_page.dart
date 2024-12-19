@@ -466,7 +466,7 @@ _ratingsBar({required double ratings}) {
     RatingBar.builder(
       itemSize: 30,
       initialRating: ratings,
-      minRating: 1,
+      // minRating: 1,
       direction: Axis.horizontal,
       allowHalfRating: true,
       itemCount: 5,
