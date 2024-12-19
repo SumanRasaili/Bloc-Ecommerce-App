@@ -14,29 +14,57 @@ class ProductDetailBloc extends Bloc<ProductDetailEvent, ProductDetailState> {
   ProductDetailBloc({required this.productRepository})
       : super(const ProductDetailState.initial()) {
     on<ProductDetailEvent>((event, emit) async {
-      await event.map(getProductDetail: (value) async {
-        emit(const ProductDetailState.loading());
-        try {
-          final response =
-              await productRepository.getproductDetail(slug: value.slug);
+      await event.map(
+        getProductDetail: (value) async {
+          emit(const ProductDetailState.loading());
+          try {
+            final response =
+                await productRepository.getproductDetail(slug: value.slug);
 
-          if (response != null) {
-            emit(
-              ProductDetailState.loaded(
-                productDetailData: response,
-                selectedColor: (response.colorAttributes.isNotEmpty)
-                    ? response.colorAttributes.first.name ?? ""
-                    : "",
-              ),
-            );
-          } else {
-            emit(const ProductDetailState.error("Something went wrong"));
+            if (response != null) {
+              final initialColor = (response.colorAttributes.isNotEmpty)
+                  ? response.colorAttributes.first.name ?? ""
+                  : "";
+              final colorVariants = (response.colorVariants.isNotEmpty)
+                  ? response.colorVariants.firstWhere(
+                      (e) => (e.color?.name ?? "") == initialColor,
+                      orElse: () => const ColorVariant(),
+                    )
+                  : const ColorVariant();
+              emit(
+                ProductDetailState.loaded(
+                  productDetailData: response,
+                  selectedColor: initialColor,
+                  colorVariant: colorVariants,
+                ),
+              );
+            } else {
+              emit(const ProductDetailState.error("Something went wrong"));
+            }
+          } catch (e, stackTrace) {
+            log(stackTrace.toString());
+            emit(ProductDetailState.error(e.toString()));
           }
-        } catch (e, stackTrace) {
-          log(stackTrace.toString());
-          emit(ProductDetailState.error(e.toString()));
-        }
-      });
+        },
+        toggleColorAttribute: (value) {
+          state.maybeWhen(orElse: () {
+            emit(const ProductDetailState.error("Product detail not loaded"));
+          }, loaded: (
+            productDetailData,
+            String selectedColorAttribute,
+            ColorVariant colorVariant,
+          ) {
+            emit(ProductDetailState.loaded(
+              productDetailData: productDetailData,
+              selectedColor: value.colorName,
+              colorVariant: productDetailData.colorVariants.firstWhere(
+                (e) => (e.color?.name ?? "") == value.colorName,
+                orElse: () => const ColorVariant(),
+              ),
+            ));
+          });
+        },
+      );
     });
   }
 }

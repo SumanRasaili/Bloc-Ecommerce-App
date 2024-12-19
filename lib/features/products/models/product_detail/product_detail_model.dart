@@ -38,7 +38,9 @@ class ProductDetailData with _$ProductDetailData {
     @JsonKey(name: "maxOrder") int? maxOrder,
     @JsonKey(name: "status") bool? status,
     @JsonKey(name: "images") @Default([]) List<String> images,
-    @JsonKey(name: "colorAttributes") @Default([]) List<Color> colorAttributes,
+    @JsonKey(name: "colorAttributes")
+    @Default([])
+    List<AttributeColor> colorAttributes,
     @JsonKey(name: "sizeAttributes") List<dynamic>? sizeAttributes,
     @JsonKey(name: "variantType") String? variantType,
     @JsonKey(name: "colorVariants")
@@ -102,21 +104,22 @@ class Category with _$Category {
 }
 
 @freezed
-class Color with _$Color {
-  const factory Color({
+class AttributeColor with _$AttributeColor {
+  const factory AttributeColor(
     @JsonKey(name: "_id") String? id,
     @JsonKey(name: "isTwin") bool? isTwin,
     @JsonKey(name: "name") String? name,
     @JsonKey(name: "colorValue") List<String>? colorValue,
-  }) = _Color;
+  ) = _AttributeColor;
 
-  factory Color.fromJson(Map<String, dynamic> json) => _$ColorFromJson(json);
+  factory AttributeColor.fromJson(Map<String, dynamic> json) =>
+      _$AttributeColorFromJson(json);
 }
 
 @freezed
 class ColorVariant with _$ColorVariant {
   const factory ColorVariant({
-    @JsonKey(name: "color") Color? color,
+    @JsonKey(name: "color") AttributeColor? color,
     @JsonKey(name: "price") int? price,
     @JsonKey(name: "rewardPoint") int? rewardPoint,
     @JsonKey(name: "strikePrice") int? strikePrice,

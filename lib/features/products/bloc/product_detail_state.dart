@@ -7,6 +7,7 @@ class ProductDetailState with _$ProductDetailState {
   const factory ProductDetailState.loaded({
     required ProductDetailData productDetailData,
     required String selectedColor,
+    required ColorVariant colorVariant,
   }) = _Loaded;
   const factory ProductDetailState.error(String message) = _Error;
 }

@@ -7,42 +7,12 @@ import 'package:html/parser.dart';
 import 'package:oriflamenepal/config/color/app_colors.dart';
 import 'package:oriflamenepal/features/products/bloc/cart/cart_bloc.dart';
 import 'package:oriflamenepal/features/products/bloc/product_detail_bloc.dart';
+import 'package:oriflamenepal/features/products/models/product_detail/product_detail_model.dart'
+    as detail;
 import 'package:quickalert/models/quickalert_type.dart';
 import 'package:quickalert/widgets/quickalert_dialog.dart';
 import 'package:readmore/readmore.dart';
 import 'package:sizer/sizer.dart';
-
-class ColorValues {
-  final Color color;
-  final String colorName;
-  ColorValues({required this.color, required this.colorName});
-}
-
-List<ColorValues> colorValues = [
-  ColorValues(color: Colors.teal, colorName: 'Teal'),
-  ColorValues(color: Colors.purple, colorName: 'Purple'),
-  ColorValues(color: Colors.red, colorName: 'Red'),
-  ColorValues(color: Colors.green, colorName: 'Green'),
-  ColorValues(color: Colors.blue, colorName: 'Blue'),
-  ColorValues(color: Colors.yellow, colorName: 'Yellow'),
-];
-
-class ColorAttributes {
-  final String productCode;
-  final String colorName;
-  final Color color;
-  final num productPrice;
-  final num productDiscount;
-  final num productDiscountPercent;
-  ColorAttributes({
-    required this.productCode,
-    required this.productPrice,
-    required this.productDiscount,
-    required this.productDiscountPercent,
-    required this.colorName,
-    required this.color,
-  });
-}
 
 class ProductDetailPage extends StatefulWidget {
   final String slug;
@@ -55,10 +25,7 @@ class ProductDetailPage extends StatefulWidget {
 class _ProductDetailPageState extends State<ProductDetailPage> {
   late CarouselSliderController carouselBannerController;
   int currentIndex = 0;
-  late ColorAttributes selectedAttributesValue;
-  List<String> imageUrls = [];
-  List<ColorAttributes> colorAttributes = [];
-  String selectedColor = '';
+
   @override
   void initState() {
     super.initState();
@@ -67,53 +34,6 @@ class _ProductDetailPageState extends State<ProductDetailPage> {
         .add(ProductDetailEvent.getProductDetail(slug: widget.slug));
 
     carouselBannerController = CarouselSliderController();
-    colorAttributes = [
-      ColorAttributes(
-          productCode: '1234',
-          colorName: 'Teal',
-          color: Colors.teal,
-          productPrice: 500,
-          productDiscount: 20,
-          productDiscountPercent: 6),
-      ColorAttributes(
-          productCode: '345',
-          colorName: 'Purple',
-          color: Colors.purple,
-          productPrice: 400,
-          productDiscount: 30,
-          productDiscountPercent: 5),
-      ColorAttributes(
-          productCode: '432',
-          colorName: 'Red',
-          color: Colors.red,
-          productPrice: 544,
-          productDiscount: 90,
-          productDiscountPercent: 20),
-      ColorAttributes(
-          productCode: '76',
-          colorName: 'Green',
-          color: Colors.green,
-          productPrice: 345,
-          productDiscount: 23,
-          productDiscountPercent: 8),
-      ColorAttributes(
-          productCode: '890',
-          colorName: 'Blue',
-          color: Colors.blue,
-          productPrice: 0989,
-          productDiscount: 345,
-          productDiscountPercent: 7),
-      ColorAttributes(
-        productCode: '2342',
-        colorName: 'Yellow',
-        color: Colors.yellow,
-        productPrice: 2345,
-        productDiscount: 654,
-        productDiscountPercent: 55,
-      ),
-    ];
-    selectedAttributesValue = colorAttributes[0];
-    selectedColor = colorAttributes[0].colorName;
   }
 
   int quantity = 1;
@@ -155,7 +75,8 @@ class _ProductDetailPageState extends State<ProductDetailPage> {
           return const Center(child: CircularProgressIndicator());
         }, error: (message) {
           return Center(child: Text(message));
-        }, loaded: (productDetail, selectedColorAttribute) {
+        }, loaded: (productDetail, String selectedColorAttribute,
+            detail.ColorVariant colorVariant) {
           return CustomScrollView(
             slivers: [
               SliverAppBar(
@@ -337,7 +258,7 @@ class _ProductDetailPageState extends State<ProductDetailPage> {
                       ),
                       // SizedBox(height: 5.0.h),
                       Text(
-                        "Code : ${selectedAttributesValue.productCode}",
+                        "Code : ${colorVariant.productCode ?? productDetail.slug}",
                         style: TextStyle(
                           fontSize: 16.sp,
                         ),
@@ -345,7 +266,7 @@ class _ProductDetailPageState extends State<ProductDetailPage> {
                       SizedBox(height: 0.5.h),
                       Row(children: [
                         Text(
-                          "Rs. ${selectedAttributesValue.productPrice}",
+                          "Rs. ${colorVariant.price ?? productDetail.price}",
                           style: TextStyle(
                             fontSize: 16.sp,
                             fontWeight: FontWeight.bold,
@@ -353,7 +274,7 @@ class _ProductDetailPageState extends State<ProductDetailPage> {
                         ),
                         SizedBox(width: 3.w),
                         Text(
-                          "Rs. ${selectedAttributesValue.productDiscount}",
+                          "Rs. ${colorVariant.strikePrice ?? productDetail.strikePrice}",
                           style: TextStyle(
                               fontSize: 16.sp,
                               fontWeight: FontWeight.bold,
@@ -361,27 +282,30 @@ class _ProductDetailPageState extends State<ProductDetailPage> {
                               decoration: TextDecoration.lineThrough),
                         ),
                         SizedBox(width: 3.w),
-                        Container(
-                          padding: const EdgeInsets.all(5),
-                          decoration: BoxDecoration(
-                            border: Border.all(
-                                color: Theme.of(context).primaryColor,
-                                width: 2),
-                            borderRadius: BorderRadius.circular(10),
-                          ),
-                          child: Text(
-                            "${selectedAttributesValue.productDiscountPercent} % off",
-                            style: TextStyle(
-                              fontSize: 16.sp,
-                              fontWeight: FontWeight.bold,
-                              color: Theme.of(context).primaryColor,
-                            ),
-                          ),
-                        ),
+                        colorVariant.offPercent == 0 ||
+                                productDetail.offPercent == 0
+                            ? const SizedBox.shrink()
+                            : Container(
+                                padding: const EdgeInsets.all(5),
+                                decoration: BoxDecoration(
+                                  border: Border.all(
+                                      color: Theme.of(context).primaryColor,
+                                      width: 2),
+                                  borderRadius: BorderRadius.circular(10),
+                                ),
+                                child: Text(
+                                  "${colorVariant.offPercent ?? productDetail.offPercent} % off",
+                                  style: TextStyle(
+                                    fontSize: 16.sp,
+                                    fontWeight: FontWeight.bold,
+                                    color: Theme.of(context).primaryColor,
+                                  ),
+                                ),
+                              ),
                       ]),
                       SizedBox(height: 0.5.h),
                       Text(
-                        selectedAttributesValue.colorName,
+                        selectedColorAttribute,
                         style: TextStyle(
                           fontSize: 16.sp,
                           fontWeight: FontWeight.bold,
@@ -397,11 +321,13 @@ class _ProductDetailPageState extends State<ProductDetailPage> {
                                         children: [
                                           InkWell(
                                             onTap: () {
-                                              setState(() {
-                                                selectedColor =
-                                                    color.name ?? "";
-                                                // selectedAttributesValue = color;
-                                              });
+                                              context
+                                                  .read<ProductDetailBloc>()
+                                                  .add(ProductDetailEvent
+                                                      .toggleColorAttribute(
+                                                          colorName:
+                                                              color.name ??
+                                                                  ""));
                                             },
                                             child: Container(
                                               // padding: const EdgeInsets.all(15),
@@ -421,10 +347,13 @@ class _ProductDetailPageState extends State<ProductDetailPage> {
                                                 margin: const EdgeInsets.all(3),
                                                 decoration: BoxDecoration(
                                                   shape: BoxShape.circle,
-                                                  color: Color(int.parse(color
-                                                      .colorValue!.first
-                                                      .replaceAll(
-                                                          '#', '0xff'))),
+                                                  color: color.colorValue !=
+                                                          null
+                                                      ? Color(int.parse(color
+                                                          .colorValue!.first
+                                                          .replaceAll(
+                                                              '#', '0xff')))
+                                                      : null,
                                                 ),
                                               ),
                                             ),
