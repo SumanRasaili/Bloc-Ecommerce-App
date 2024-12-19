@@ -6,6 +6,7 @@ import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:oriflamenepal/config/theme/app_theme.dart';
 import 'package:oriflamenepal/core/dio/dio_manager.dart';
 import 'package:oriflamenepal/core/service_locator/serv_locator.dart';
+import 'package:oriflamenepal/features/products/bloc/cart/cart_bloc.dart';
 import 'package:oriflamenepal/features/products/bloc/product_detail_bloc.dart';
 import 'package:oriflamenepal/features/products/bloc/products_bloc.dart';
 import 'package:oriflamenepal/features/products/presentation/screens/splash_screen.dart';
@@ -44,9 +45,15 @@ class MyApp extends StatelessWidget {
                       ),
                     )),
             BlocProvider(
-                create: (context) => ProductDetailBloc(
-                    productRepository:
-                        ProductRepository(dioManager: DioManager())))
+              create: (context) => ProductDetailBloc(
+                productRepository: ProductRepository(
+                  dioManager: DioManager(),
+                ),
+              ),
+            ),
+            BlocProvider(
+              create: (context) => CartBloc(),
+            )
           ],
           child: MaterialApp(
             title: 'Oriflame Nepal',

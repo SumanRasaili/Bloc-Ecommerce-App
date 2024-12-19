@@ -5,6 +5,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 import 'package:html/parser.dart';
 import 'package:oriflamenepal/config/color/app_colors.dart';
+import 'package:oriflamenepal/features/products/bloc/cart/cart_bloc.dart';
 import 'package:oriflamenepal/features/products/bloc/product_detail_bloc.dart';
 import 'package:quickalert/models/quickalert_type.dart';
 import 'package:quickalert/widgets/quickalert_dialog.dart';
@@ -282,59 +283,63 @@ class _ProductDetailPageState extends State<ProductDetailPage> {
                               fontWeight: FontWeight.bold,
                             ),
                           ),
-                          Container(
-                            margin: EdgeInsets.only(left: 1.w),
-                            decoration: BoxDecoration(
-                              color: Theme.of(context).primaryColor,
-                              borderRadius: BorderRadius.circular(5),
-                            ),
-                            child:
-                                Row(mainAxisSize: MainAxisSize.min, children: [
-                              IconButton(
-                                onPressed: () {
-                                  setState(() {
-                                    if (quantity > 1) {
-                                      quantity--;
-                                    }
-                                  });
-                                },
-                                icon: Icon(
-                                  Icons.remove,
-                                  color: quantity > 1
-                                      ? Theme.of(context)
-                                          .scaffoldBackgroundColor
-                                      : Colors.grey,
-                                ),
-                                visualDensity: const VisualDensity(
-                                    vertical: -3, horizontal: -3),
+                          BlocBuilder<CartBloc, CartState>(
+                              builder: (context, state) {
+                            return Container(
+                              margin: EdgeInsets.only(left: 1.w),
+                              decoration: BoxDecoration(
+                                color: Theme.of(context).primaryColor,
+                                borderRadius: BorderRadius.circular(5),
                               ),
-                              SizedBox(width: 5.w),
-                              Text(
-                                quantity.toString(),
-                                style: TextStyle(
-                                  fontSize: 16.sp,
-                                  fontWeight: FontWeight.bold,
-                                  color:
-                                      Theme.of(context).scaffoldBackgroundColor,
-                                ),
-                              ),
-                              SizedBox(width: 5.w),
-                              IconButton(
-                                onPressed: () {
-                                  setState(() {
-                                    quantity++;
-                                  });
-                                },
-                                icon: Icon(
-                                  Icons.add,
-                                  color:
-                                      Theme.of(context).scaffoldBackgroundColor,
-                                ),
-                                visualDensity: const VisualDensity(
-                                    horizontal: -3, vertical: -3),
-                              ),
-                            ]),
-                          )
+                              child: Row(
+                                  mainAxisSize: MainAxisSize.min,
+                                  children: [
+                                    IconButton(
+                                      onPressed: () {
+                                        if (state.quantity > 1) {
+                                          context.read<CartBloc>().add(
+                                              CartEvent.decrementQuantity(
+                                                  state.quantity));
+                                        }
+                                      },
+                                      icon: Icon(
+                                        Icons.remove,
+                                        color: state.quantity > 1
+                                            ? Theme.of(context)
+                                                .scaffoldBackgroundColor
+                                            : Colors.grey,
+                                      ),
+                                      visualDensity: const VisualDensity(
+                                          vertical: -3, horizontal: -3),
+                                    ),
+                                    SizedBox(width: 5.w),
+                                    Text(
+                                      state.quantity.toString(),
+                                      style: TextStyle(
+                                        fontSize: 16.sp,
+                                        fontWeight: FontWeight.bold,
+                                        color: Theme.of(context)
+                                            .scaffoldBackgroundColor,
+                                      ),
+                                    ),
+                                    SizedBox(width: 5.w),
+                                    IconButton(
+                                      onPressed: () {
+                                        context.read<CartBloc>().add(
+                                            CartEvent.incrementQuantity(
+                                                state.quantity));
+                                      },
+                                      icon: Icon(
+                                        Icons.add,
+                                        color: Theme.of(context)
+                                            .scaffoldBackgroundColor,
+                                      ),
+                                      visualDensity: const VisualDensity(
+                                          horizontal: -3, vertical: -3),
+                                    ),
+                                  ]),
+                            );
+                          })
                         ],
                       ),
                       // SizedBox(height: 5.0.h),
