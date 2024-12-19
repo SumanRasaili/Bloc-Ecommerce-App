@@ -3,8 +3,10 @@ import 'dart:developer';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 import 'package:oriflamenepal/config/color/app_colors.dart';
+import 'package:oriflamenepal/features/products/bloc/product_detail_bloc.dart';
 import 'package:quickalert/models/quickalert_type.dart';
 import 'package:quickalert/widgets/quickalert_dialog.dart';
 import 'package:readmore/readmore.dart';
@@ -43,7 +45,8 @@ class ColorAttributes {
 }
 
 class ProductDetailPage extends StatefulWidget {
-  const ProductDetailPage({super.key});
+  final String slug;
+  const ProductDetailPage({super.key, required this.slug});
 
   @override
   State<ProductDetailPage> createState() => _ProductDetailPageState();
@@ -57,17 +60,7 @@ class _ProductDetailPageState extends State<ProductDetailPage> {
   List<ColorAttributes> colorAttributes = [];
   String selectedColor = '';
   @override
-/*************  ✨ Codeium Command ⭐  *************/
-  /// Called when the widget is inserted into the tree.
-  ///
-  /// This initializes the product image urls and color attributes for the product detail page.
-  ///
-  /// The image urls are hard-coded for now, but they should be replaced with the actual API call to get the product images.
-  ///
-  /// The color attributes are also hard-coded for now, but they should be replaced with the actual API call to get the product color attributes.
-  ///
-  /// The selected color is set to the first color attribute in the list.
-/******  3d6745a3-78d3-464d-be13-61fd3f9ee4b4  *******/  void initState() {
+  void initState() {
     super.initState();
     carouselBannerController = CarouselSliderController();
     imageUrls = [
@@ -129,7 +122,7 @@ class _ProductDetailPageState extends State<ProductDetailPage> {
   int quantity = 1;
   @override
   Widget build(BuildContext context) {
-    log("${Device.aspectRatio}");
+   final productDetail = context.read<ProductDetailBloc>().add(ProductDetailEvent.getProductDetail(slug:widget.slug));
     return Scaffold(
       persistentFooterButtons: [
         InkWell(

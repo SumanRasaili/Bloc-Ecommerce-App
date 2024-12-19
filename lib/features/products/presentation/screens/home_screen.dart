@@ -56,7 +56,7 @@ class _HomeScreenState extends State<HomeScreen> {
                                       Navigator.of(context).push(
                                         MaterialPageRoute(
                                           builder: (context) =>
-                                              const ProductDetailPage(),
+                                               ProductDetailPage(slug:   productData?.slug??"",),
                                         ),
                                       );
                                     },
