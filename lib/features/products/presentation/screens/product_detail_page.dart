@@ -428,7 +428,9 @@ class _ProductDetailPageState extends State<ProductDetailPage> {
                                   ))
                               .toList()),
                       SizedBox(height: 0.5.h),
-                      _ratingsBar(),
+                      _ratingsBar(
+                          ratings:
+                              double.parse(productDetail.ratings.toString())),
                       SizedBox(height: 1.h),
                       _readMoreSection(
                           context: context,
@@ -451,7 +453,7 @@ class _ProductDetailPageState extends State<ProductDetailPage> {
   }
 }
 
-_ratingsBar() {
+_ratingsBar({required double ratings}) {
   return Row(mainAxisAlignment: MainAxisAlignment.spaceBetween, children: [
     Text(
       "Ratings",
@@ -463,7 +465,7 @@ _ratingsBar() {
     SizedBox(width: 10.w),
     RatingBar.builder(
       itemSize: 30,
-      initialRating: 3,
+      initialRating: ratings,
       minRating: 1,
       direction: Axis.horizontal,
       allowHalfRating: true,
