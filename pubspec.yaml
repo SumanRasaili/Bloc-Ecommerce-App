@@ -25,6 +25,7 @@ dependencies:
   sizer: ^3.0.4
   device_preview: ^1.2.0
   freezed: ^2.5.7
+  flutter_widget_from_html_core: ^0.15.2
 
 dev_dependencies:
   flutter_test:

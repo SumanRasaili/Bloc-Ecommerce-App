@@ -1,6 +1,7 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_widget_from_html_core/flutter_widget_from_html_core.dart';
 import 'package:oriflamenepal/features/products/bloc/products_bloc.dart';
 import 'package:oriflamenepal/features/products/presentation/screens/product_detail_page.dart';
 import 'package:sizer/sizer.dart';
@@ -48,8 +49,9 @@ class _HomeScreenState extends State<HomeScreen> {
                               mainAxisSpacing: 5.h,
                               crossAxisSpacing: 5.w,
                               children: List.generate(
-                                20,
+                                (products.docs ?? []).length,
                                 (index) {
+                                  final productData = products.docs?[index];
                                   return InkWell(
                                     onTap: () {
                                       Navigator.of(context).push(
@@ -79,7 +81,8 @@ class _HomeScreenState extends State<HomeScreen> {
                                           Expanded(
                                             child: CachedNetworkImage(
                                               imageUrl:
-                                                  'https://images.unsplash.com/photo-1631011714977-a6068c048b7b?q=80&w=2874&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D',
+                                                  productData?.images?.first ??
+                                                      "",
                                               imageBuilder:
                                                   (context, imageProvider) {
                                                 return Container(
@@ -108,22 +111,28 @@ class _HomeScreenState extends State<HomeScreen> {
                                                 crossAxisAlignment:
                                                     CrossAxisAlignment.start,
                                                 children: [
-                                                  const Text(
-                                                      'Oriflame Lipstick'),
-                                                  const Text(
-                                                    'Oriflame Lipstick is the best in the town you can get',
-                                                    maxLines: 2,
-                                                    overflow:
-                                                        TextOverflow.ellipsis,
+                                                  Text(
+                                                    productData?.title ?? "",
+                                                  ),
+                                                  HtmlWidget(
+                                                    productData?.description ??
+                                                        "",
+                                                    textStyle: const TextStyle(
+                                                        overflow: TextOverflow
+                                                            .ellipsis,
+                                                        decoration:
+                                                            TextDecoration
+                                                                .none),
                                                   ),
                                                   Row(
                                                     children: [
-                                                      const Text('Rs. 500'),
+                                                      Text(
+                                                          "Rs. ${productData?.price?.toString() ?? ""}"),
                                                       SizedBox(width: 1.5.w),
-                                                      const Flexible(
+                                                      Flexible(
                                                         child: Text(
-                                                          'Rs. 1000',
-                                                          style: TextStyle(
+                                                          "Rs. ${productData?.offPercent ?? "-"}",
+                                                          style: const TextStyle(
                                                               decoration:
                                                                   TextDecoration
                                                                       .lineThrough,
