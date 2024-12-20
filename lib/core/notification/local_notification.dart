@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:flutter/widgets.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 
@@ -8,7 +10,7 @@ class FlutterLocalNotificationManager {
   final FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin =
       FlutterLocalNotificationsPlugin();
   AndroidInitializationSettings initializationSettingsAndroid =
-      const AndroidInitializationSettings('app_icon');
+      const AndroidInitializationSettings('@mipmap/ic_launcher');
 
   Future<void> init() async {
     try {
@@ -29,20 +31,22 @@ class FlutterLocalNotificationManager {
   }
 
   displayNotification({required String title, required String body}) async {
-    AndroidNotificationDetails androidNotificationDetails =
-        const AndroidNotificationDetails(
-      'your channel id',
-      'your channel name',
-      importance: Importance.max,
-      priority: Priority.high,
-      ticker: 'ticker',
-      enableVibration: true,
-      enableLights: true,
-    );
-    NotificationDetails notificationDetails =
-        NotificationDetails(android: androidNotificationDetails);
-    await flutterLocalNotificationsPlugin.show(
-        0, title, body, notificationDetails,
-        payload: 'Your selection will be noted');
+    try {
+      AndroidNotificationDetails androidNotificationDetails =
+          const AndroidNotificationDetails(
+        'your channel id',
+        'your channel name',
+        importance: Importance.max,
+        priority: Priority.high,
+        ticker: 'ticker',
+      );
+      NotificationDetails notificationDetails =
+          NotificationDetails(android: androidNotificationDetails);
+      await flutterLocalNotificationsPlugin.show(
+          0, title, body, notificationDetails,
+          payload: 'Your selection will be noted');
+    } catch (e) {
+      log(e.toString());
+    }
   }
 }

@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
@@ -444,8 +446,9 @@ _messageSection(BuildContext context) {
             Icons.send,
             color: Theme.of(context).primaryColor,
           ),
-          onPressed: () {
-            FlutterLocalNotificationManager.instance.displayNotification(
+          onPressed: () async {
+            log("Tapped");
+            await FlutterLocalNotificationManager.instance.displayNotification(
                 title: "Oriflame Nepal", body: "Thank You for messaging us");
           },
         ),
