@@ -4,12 +4,12 @@ import 'package:oriflamenepal/config/color/app_colors.dart';
 class AppThemes {
   static ThemeData lightTheme = ThemeData(
     appBarTheme: const AppBarTheme(
-      backgroundColor: Colors.transparent,
-      foregroundColor: Colors.black,
-      surfaceTintColor: Colors.transparent,
+      surfaceTintColor: Colors.white,
     ),
+    useMaterial3: true,
+
     // primaryColor: kprimaryColor,
-    scaffoldBackgroundColor: Colors.white,
+    // scaffoldBackgroundColor: Colors.transparent,
     colorScheme: ColorScheme.fromSeed(
       seedColor: kprimaryColor,
       primary: kprimaryColor,

@@ -81,6 +81,7 @@ class _ProductDetailPageState extends State<ProductDetailPage> {
             slivers: [
               SliverAppBar(
                 pinned: true,
+                floating: true,
                 surfaceTintColor: Colors.transparent,
                 title: Text(
                   '',
@@ -90,7 +91,7 @@ class _ProductDetailPageState extends State<ProductDetailPage> {
                   ),
                 ),
                 automaticallyImplyLeading: true,
-                expandedHeight: 25.sh,
+                expandedHeight: 27.sh,
                 centerTitle: true,
                 flexibleSpace: FlexibleSpaceBar(
                   background: Stack(
@@ -139,7 +140,7 @@ class _ProductDetailPageState extends State<ProductDetailPage> {
                                 currentIndex = index;
                               });
                             },
-                            viewportFraction: 1.0,
+                            viewportFraction: 1,
                           ),
                         ),
                       ),
