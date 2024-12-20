@@ -1,5 +1,3 @@
-import 'dart:developer';
-
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
@@ -423,6 +421,7 @@ _ratingsBar({required double ratings}) {
 }
 
 _messageSection(BuildContext context) {
+  TextEditingController messageController = TextEditingController();
   return Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
     Text(
       'Contact Seller',
@@ -433,6 +432,7 @@ _messageSection(BuildContext context) {
     ),
     SizedBox(height: 2.h),
     TextFormField(
+      controller: messageController,
       decoration: InputDecoration(
         border: OutlineInputBorder(
           borderRadius: BorderRadius.circular(10),
@@ -447,9 +447,16 @@ _messageSection(BuildContext context) {
             color: Theme.of(context).primaryColor,
           ),
           onPressed: () async {
-            log("Tapped");
-            await FlutterLocalNotificationManager.instance.displayNotification(
-                title: "Oriflame Nepal", body: "Thank You for messaging us");
+            if (messageController.text.isEmpty) {
+              QuickAlert.show(
+                context: context,
+                type: QuickAlertType.warning,
+                title: 'Please enter message',
+              );
+            } else {
+              FlutterLocalNotificationManager.instance.displayNotification(
+                  title: "Oriflame Nepal", body: "Thank You for messaging us");
+            }
           },
         ),
       ),
