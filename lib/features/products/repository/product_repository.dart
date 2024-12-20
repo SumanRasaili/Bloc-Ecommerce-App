@@ -1,5 +1,6 @@
 import 'dart:developer';
 
+import 'package:dio/dio.dart';
 import 'package:oriflamenepal/core/dio/dio_manager.dart';
 import 'package:oriflamenepal/features/products/models/all_products_model/all_products_model.dart';
 import 'package:oriflamenepal/features/products/models/product_detail/product_detail_model.dart';
@@ -8,7 +9,7 @@ class ProductRepository {
   final DioManager dioManager;
   ProductRepository({required this.dioManager});
 
-  Future<AllProductData?> fetchProducts({required int page }) async {
+  Future<AllProductData?> fetchProducts({required int page}) async {
     try {
       final response = await dioManager.dio
           .get("/product", queryParameters: {"page": page, "limit": 10});
@@ -16,6 +17,8 @@ class ProductRepository {
         return AllProductData.fromJson(response.data["data"]);
       }
       return null;
+    } on DioException {
+      rethrow;
     } catch (e) {
       rethrow;
     }

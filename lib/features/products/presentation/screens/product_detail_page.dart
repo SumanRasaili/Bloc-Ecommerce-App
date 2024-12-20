@@ -75,7 +75,11 @@ class _ProductDetailPageState extends State<ProductDetailPage> {
         }, loading: () {
           return const Center(child: CircularProgressIndicator());
         }, error: (message) {
-          return Center(child: Text(message));
+          return Center(
+              child: Padding(
+            padding: const EdgeInsets.all(16.0),
+            child: Text(message),
+          ));
         }, loaded: (productDetail, String selectedColorAttribute,
             detail.ColorVariant colorVariant) {
           return CustomScrollView(
