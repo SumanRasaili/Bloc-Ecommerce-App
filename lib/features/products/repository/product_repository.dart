@@ -8,7 +8,7 @@ class ProductRepository {
   final DioManager dioManager;
   ProductRepository({required this.dioManager});
 
-  Future<AllProductData?> fetchProducts({int page = 1}) async {
+  Future<AllProductData?> fetchProducts({required int page }) async {
     try {
       final response = await dioManager.dio
           .get("/product", queryParameters: {"page": page, "limit": 10});

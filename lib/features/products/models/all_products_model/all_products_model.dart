@@ -23,7 +23,7 @@ class AllProductsModel with _$AllProductsModel {
 class AllProductData with _$AllProductData {
   const factory AllProductData({
     @JsonKey(name: "pagination") Pagination? pagination,
-    @JsonKey(name: "docs") List<Doc>? docs,
+    @JsonKey(name: "docs") @Default([]) List<Doc> docs,
   }) = _AllProductData;
 
   factory AllProductData.fromJson(Map<String, dynamic> json) =>
