@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:oriflamenepal/core/notification/local_notification.dart';
 import 'package:oriflamenepal/features/products/presentation/screens/home_screen.dart';
 
 class SplashScreen extends StatefulWidget {
@@ -12,7 +13,9 @@ class _SplashScreenState extends State<SplashScreen> {
   @override
   void initState() {
     super.initState();
-    Future.delayed(const Duration(seconds: 3), () {
+    
+    
+        Future.delayed(const Duration(seconds: 3), () {
       if (mounted) {
         Navigator.of(context).pushAndRemoveUntil(
             MaterialPageRoute(

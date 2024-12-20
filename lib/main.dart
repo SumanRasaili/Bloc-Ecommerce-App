@@ -5,6 +5,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:oriflamenepal/config/theme/app_theme.dart';
 import 'package:oriflamenepal/core/dio/dio_manager.dart';
+import 'package:oriflamenepal/core/notification/local_notification.dart';
 import 'package:oriflamenepal/core/service_locator/serv_locator.dart';
 import 'package:oriflamenepal/features/products/bloc/cart/cart_bloc.dart';
 import 'package:oriflamenepal/features/products/bloc/product_detail_bloc.dart';
@@ -15,6 +16,7 @@ import 'package:sizer/sizer.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
+  await FlutterLocalNotificationManager.instance.init();
   await dotenv.load(fileName: ".env");
   final servLocator = ServiceLocator();
   servLocator.init();

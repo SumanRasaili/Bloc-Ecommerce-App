@@ -5,6 +5,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 import 'package:html/parser.dart';
 import 'package:oriflamenepal/config/color/app_colors.dart';
+import 'package:oriflamenepal/core/notification/local_notification.dart';
 import 'package:oriflamenepal/features/products/bloc/cart/cart_bloc.dart';
 import 'package:oriflamenepal/features/products/bloc/product_detail_bloc.dart';
 import 'package:oriflamenepal/features/products/models/product_detail/product_detail_model.dart'
@@ -443,7 +444,10 @@ _messageSection(BuildContext context) {
             Icons.send,
             color: Theme.of(context).primaryColor,
           ),
-          onPressed: () {},
+          onPressed: () {
+            FlutterLocalNotificationManager.instance.displayNotification(
+                title: "Oriflame Nepal", body: "Thank You for messaging us");
+          },
         ),
       ),
     )
